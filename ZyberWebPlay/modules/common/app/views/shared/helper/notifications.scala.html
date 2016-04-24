@@ -1,0 +1,15 @@
+@* notifications Template File *@
+@(flash: Flash)(implicit messages: Messages)
+
+@flash.get("success").map{msg =>
+	<div class="alert alert-success alert-dismissible" role="alert">
+	  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	  <strong>@Messages("done")</strong> @msg
+	</div>  
+}.getOrElse("")
+@flash.get("error").map{msg =>
+	<div class="alert alert-danger alert-dismissible" role="alert">
+	  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	  <strong>@Messages("error")</strong> @msg
+	</div> 
+}.getOrElse("") 

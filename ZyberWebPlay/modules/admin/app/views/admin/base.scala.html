@@ -1,0 +1,20 @@
+@*--*@
+@import controllers.admin._
+@import controllers.admin.routes
+@(title: String, scripts: Html = Html(""))(content: Html)(topNav: Html = Html(""), footer: Html = Html(""))
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>@title</title>
+        <link rel="shortcut icon" type="image/png" href="@controllers.routes.Assets.versioned("images/favicon.png")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@Linker.bower("bootstrap/bootstrap.css")">
+        <script src="@Linker.bower("jquery/jquery.js")" type="text/javascript"></script>
+        @scripts
+    </head>
+    <body>
+    	@topNav
+        @content
+        @footer
+    </body>
+</html>

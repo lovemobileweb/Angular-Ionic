@@ -1,0 +1,19 @@
+<md-toolbar>
+	<div class="md-toolbar-tools" style="height: 100%;min-height: 64px;max-height: none;">
+		<i class="mdi mdi-account-multiple-plus"></i>&nbsp;&nbsp;
+		<h2>{{"select_folder"|translate}}</h2>
+		<span flex></span> <a href="javascript:;" style="float: right"
+			ng-click="cancel()"><i class="mdi mdi-close"></i></a>
+	</div>
+</md-toolbar>
+<div class="panel-body">
+	<treecontrol class="tree-classic" tree-model="folderData"
+		options="treeOptions" on-selection="setSelected(node)"
+		expanded-nodes="expandedNodes"> {{node.name}} </treecontrol>
+</div>
+<md-divider inset></md-divider>
+<md-dialog-actions layout="row"> 
+	<span flex></span>
+	<md-button class="btn btn-warning" ng-click="cancel()">{{"cancel"|translate}}</md-button>
+	<md-button type="button" class="btn btn-primary" ng-click="accept()" ng-disabled="!selected">{{'accept'|translate}}</md-button> 
+</md-dialog-actions>

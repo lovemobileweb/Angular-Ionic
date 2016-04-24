@@ -1,0 +1,37 @@
+@* login Template File *@
+@import controllers.admin._
+@import controllers.admin.routes
+@(loginInfo: Form[(String, String, Boolean)])(implicit messages: Messages)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(views.html.shared.helper.bootstrapInput.f) }
+
+
+@views.html.admin.base(messages("login_page")){
+	@form(routes.LoginController.authenticate()){
+		<center>
+		<div align="left" style="width:280px">
+			<img src="@controllers.routes.Assets.versioned("images/logos/Zyber_Logo_Blue_M.jpg")" width="200"/><br/>
+			<fieldset>
+				@helper.inputText(loginInfo("username"), args = '_label -> messages("username"), 'class -> "form-control")
+				@helper.inputPassword(loginInfo("password"), args = '_label -> messages("password"), 'class -> "form-control")
+				@helper.checkbox(loginInfo("rememberme"), args = '_label -> messages("remember_me"))
+			</fieldset>
+			
+			@if(loginInfo.hasGlobalErrors) {
+			  <div class="help-block">
+				  <ul>
+				  @for(error <- loginInfo.globalErrors) {
+				    <li>@error.message</li>
+				  }
+				  </ul>
+			  </div>
+			}
+			<div class="actions">
+		      <input type="submit" value='@messages("login")' class="btn primary">
+		    </div>
+	    </div>
+	    </center>
+	}
+}(footer = views.html.common.footer())

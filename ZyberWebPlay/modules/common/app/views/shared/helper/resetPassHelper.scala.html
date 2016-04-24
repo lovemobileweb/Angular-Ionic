@@ -1,0 +1,23 @@
+@* accountHelper Template File *@
+@()(implicit messages: Messages)
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$("#password-control").hide();
+		$("#confirm-control").hide();
+		
+		$("#reset_pass").change(function(){
+			if(this.checked){
+				$("#password-control").show();
+				$("#confirm-control").show();
+				$('#create-btn').attr('disabled','disabled');
+				$("#password").val("");
+				$("#confirm").val("");
+			}else{
+				$("#password-control").hide();
+				$("#confirm-control").hide();
+			}
+		});
+	});
+</script>

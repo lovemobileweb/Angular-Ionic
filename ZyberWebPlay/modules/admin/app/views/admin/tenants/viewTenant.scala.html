@@ -1,0 +1,24 @@
+@* viewTenant Template File *@
+@import controllers.admin._
+@import controllers.admin.routes
+@import zyber.server.dao.admin.Tenant
+
+@(tenant: Tenant)(implicit rs: UserRequest[_], messages: Messages)
+
+@views.html.admin.main(messages("tenant_details")){
+	<div class="container">
+		<div class="page-header">
+				<h1>
+					@messages("tenant"): <small>@tenant.getTenantName</small>
+				</h1>
+		</div>
+		<ul class="nav nav-tabs">
+		  <li role="presentation" class="active"><a href="@routes.TenantsController.viewTenant(tenant.getTenantId.toString)">@messages("details")</a></li>
+		  <li role="presentation"><a href="@routes.TenantsController.tenantUsers(tenant.getTenantId.toString)">@messages("users")</a></li>
+		</ul>
+		<h3>@messages("created_at") @tenant.getCreatedDate</h3>
+		<h3>@tenant.getContactName - @tenant.getContactEmail</h3>
+		<h3>@messages("visit_tenant") <a href="@routes.TenantsController.visitTenant(tenant.getTenantId.toString)">@tenant.getSubdomain</a></h3>
+	</div>
+
+}(Some(rs), messages)

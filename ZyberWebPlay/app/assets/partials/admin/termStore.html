@@ -1,0 +1,62 @@
+<!-- <h2>{{"termstore.title" | translate}}</h2>
+<div class="container">
+	<div align="right">
+		<a class="action-link" href="javascript:;" ng-click="newTerm()">{{"new.termstore" | translate}}</a>
+	</div>
+	<table class="table">
+		<tr>
+			<th>{{"name" | translate}}</th>
+			<th>{{"description" | translate}}</th>
+			<th>{{"allow.custom.terms" | translate}}</th>
+			<th>---</th>
+		</tr>
+		<tr ng-repeat="term in termStore">
+			<td>{{term.name}}</td>
+			<td>{{term.description}}</td>
+			<td>{{term.allowCustomTerms}}</td>
+			<td><a class="action-link" ng-click="editTerm(term)">{{"edit"|translate}}</a></td>
+		</tr>
+	</table>
+</div> -->
+
+<div class="admin-page-content">
+	<md-card class="mr-0 ml-0 relative">
+		<div class="card-button">
+			<md-button class="primary mr-0 mt-0" ng-click="newTerm()">{{"new.termstore" | translate}}</md-button>
+		</div>
+		<md-card-title>
+		    <md-card-title-text>
+		        <span class="md-headline">{{"termstore.title" | translate}}</span>
+		    </md-card-title-text>
+		</md-card-title>
+	    <md-table-container>
+	      <table md-table class="user-list-table responsive-table">
+	        <thead md-head >
+	          	<tr md-row>
+	          		<th md-column>{{"name" | translate}}</th>
+	          		<th md-column>{{"description" | translate}}</th>
+	          		<th md-column>{{"allow.custom.terms" | translate}}</th>
+	          		<th md-column md-numeric>Action</th>
+	            </tr>
+	        </thead>
+	        <tbody md-body>
+	            <tr md-row ng-repeat="term in termStore">
+	            	<td md-cell data-th="{{'name' | translate}}">{{term.name}}</td>
+	            	<td md-cell data-th="{{'description' | translate}}">{{term.description}}</td>
+	            	<td md-cell data-th="{{'allow.custom.terms' | translate}}">{{term.allowCustomTerms}}</td>
+	            	<td md-cell data-th='Action' class="action-btn">
+	            		<a class="md-button md-raised" href="javascript:;" ng-click="editTerm(term)"><i class="mdi mdi-pencil"></i>
+	            		<md-tooltip md-direction="top">
+	            		        {{"edit_user" | translate}}
+	            		</md-tooltip>
+	            		</a>
+	            	</td>
+	            </tr>
+	        </tbody>
+	      </table>
+	    </md-table-container>
+	</md-card>
+</div>
+<script type="text/ng-template" id="editTermStore.html">
+	<ng-include src="'assets/partials/admin/editTermStore.html'"></ng-include>
+</script>

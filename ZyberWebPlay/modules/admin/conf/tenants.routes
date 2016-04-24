@@ -1,0 +1,36 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET    /                            controllers.admin.TenantsController.index
+
+GET    /login                       controllers.admin.LoginController.login
+POST   /login                       controllers.admin.LoginController.authenticate
+GET    /logout                      controllers.admin.LoginController.logout
+
+GET    /tenants                     controllers.admin.TenantsController.tenants
+GET    /createTenant                controllers.admin.TenantsController.createTenant
+POST   /createTenant                controllers.admin.TenantsController.addTenant
+GET    /updateTenant/:id            controllers.admin.TenantsController.editTenant(id: String)
+POST   /updateTenant/:id            controllers.admin.TenantsController.updateDeleteTenant(id: String)
+GET    /visitTenant/:id             controllers.admin.TenantsController.visitTenant(id: String)
+GET    /tenants/:id                 controllers.admin.TenantsController.viewTenant(id: String)
+GET    /tenants/:id/users           controllers.admin.TenantsController.tenantUsers(id: String)
+GET    /tenants/:id/createUser      controllers.admin.TenantsController.newAccount(id: String)
+POST   /tenants/:id/createUser      controllers.admin.TenantsController.createAccount(id: String)
+GET    /tenants/:id/users/:userId   controllers.admin.TenantsController.editUser(id: String, userId: String)
+POST   /tenants/:id/users/:userId   controllers.admin.TenantsController.updateDeleteUser(id: String, userId: String)
+
+GET    /users                       controllers.admin.LoginController.viewUsers
+GET    /createUser                  controllers.admin.LoginController.createUser
+POST   /createUser                  controllers.admin.LoginController.addUser
+
+GET    /updateUser/:id              controllers.admin.LoginController.editUser(id: String)
+POST   /updateUser/:id              controllers.admin.LoginController.updateDeleteUser(id: String)
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET    /bowerassets/*file           controllers.ExternalAssets.at(path="public", file: String)
+GET    /assets/*file                controllers.Assets.versioned(path="/public", file: Asset)
+#GET    /webjars/*file               controllers.WebJarAssets.at(file)

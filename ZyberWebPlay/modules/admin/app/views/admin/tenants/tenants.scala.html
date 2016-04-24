@@ -1,0 +1,34 @@
+@* tenants Template File *@
+@import controllers.admin._
+@import controllers.admin.routes
+@import zyber.server.dao.admin.Tenant
+
+@(tenantsSeq: Seq[Tenant])(implicit rs: UserRequest[_], messages: Messages)
+
+@views.html.admin.main(messages("tenants")){
+	<div class="container">
+		<h2>@messages("tenants")</h2>
+		<div align="right">
+			<a class="btn btn-default" href="@routes.TenantsController.createTenant()" 
+			role="button">@messages("create_tenant")</a>
+		</div>
+		<table class="table table-hover">
+			<tr>
+				<th>@messages("tenant_name")</th>
+				<th>@messages("contact_name")</th>
+				<th>@messages("contact_phone")</th>
+				<th>@messages("subdomain")</th>
+				<th>---</th>
+			</tr>
+			@for(t <- tenantsSeq){
+				<tr>
+					<td><a href="@routes.TenantsController.viewTenant(t.getTenantId.toString())">@t.getTenantName</a></td>
+					<td>@t.getTenantName</td>
+					<td>@t.getContactPhone</td>
+					<td>@t.getSubdomain</td>
+					<td><a href="@routes.TenantsController.editTenant(t.getTenantId.toString)">@messages("edit")</a></td>
+				</tr>
+			}
+		</table>
+	</div>
+}(Some(rs), messages)

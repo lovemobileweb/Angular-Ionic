@@ -1,0 +1,382 @@
+# messages
+account.create = Create account
+login.nosesion = Unauthorized
+user.deleted = User successfully deleted
+
+username = Username
+remember_me = Remember me
+
+login.error = Username or password incorrect
+password.error = Invalid password
+
+account.create.user.exists = User already exists
+account.create.success = Account successfully created
+account.update.success = Account successfully updated
+account.create.error = An error occurred while updating the user
+
+account.create.dontmatch = Password and confirmation do not match
+
+error_details_page = An error occurred while getting users details
+error_profile_page = Cannot get user profile
+
+error_user_list = An error occurred while getting users
+
+message_welcome = Signed in as
+
+api.invalid.json = Invalid json
+api.invalid.path = Invalid path: {0}
+api.invalid.user = Invalid user
+api.successfull.upload = File {0} successfully uploaded.
+api.error.upload = An error occurred while uploading file
+api.folder.created = Folder {0} created
+
+api.invalid.path_id = Invalid path id: {0} 
+
+api.termStore.deleted = Termstore deleted
+api.termStore.saved = Termstore successfully saved
+api.metadata_not_found = Metadata not found
+api.metadata_deleted = Metadata deleted
+api.invalid.metadata = Invalid metadata
+api.metadata.updated = Termstore successfully updated
+api.empty.metadata = Metadata missing
+api.folder.exists = Folder already exists, try with a different name
+api.file.exists = A file or folder with the same name already exists
+api.missing.name = Missing name
+api.group_created = Group successfully created
+api.group_updated = Group successfully updated
+api.group.exists = Group already exists
+
+api.invalid.group = Invalid group
+invalid.groupmember = Invalid group member
+invalid.no_group_owner = Only owners can delete groups and members
+members.added = {0} members successfully added to group
+group.removed = Group successfully removed
+member.removed = Member successfully removed from group
+
+# Tenants
+tenants = Tenants
+tenantAdmin = Administrator users
+account.delete = Delete
+account.update = Update
+cancel = Cancel
+edit_user = Edit user
+user_exists = Username already exists
+user_created = User successfully created
+invalid_user = Invalid user
+user_deleted = User successfully deleted
+password_required = Password required
+user_updated = User updated
+
+invalid_phone = Invalid phone number
+invalid_subdomain = Invalid subdomain
+tenant_created = Tenant successfully created
+invalid_tenant = Invalid tenant
+tenant_updated = Tenant updated
+tenant_deleted = Tenant successfully deleted
+subdomain_used = Subdomain is already in use
+
+create_tenant = Create tenant
+created_date = Created date
+username = Username
+name = Name
+email = Email
+active = Active
+inactive = Inactive
+edit = Edit
+create_user = Create User
+account.create = Create
+
+tenant_name = Tenant name
+contact_name = Contact name
+contact_phone = Contact phone
+subdomain = Subdomain
+
+created_at = Created at
+visit_tenant = Go to tenant
+tenant = Tenant
+edit_tenant = Edit tenant
+contact_email = Contact Email
+tenant_users = Users for tenant
+# views
+name = Name
+email = Email
+language = Language
+save = Save
+cancel = Cancel
+security = Security
+description = Description
+allow.custom.terms = Allow custom terms
+new.termstore = New Termstore
+create.account = Create account
+edit.account = Edit account
+change.password = Change password
+name.required = Name is required
+language.required = Language is required
+password = Password
+confirm = Password confirmation
+account = Account
+users = Users
+activity = Activity
+termstore = Term store
+field.required = Field is required
+field.email = Invalid email
+password.compareTo = Passwords do not match
+file = File
+time = Time
+mode = Mode
+activity.title = Name
+termstore.title = Term store
+termstore.custom.terms = Allow custom terms
+termstore.addterm = Add new term
+termstore.remove.confirmation = Do you want to remove term store
+termstore.predefined.terms = Predefined terms
+current.password = Current password
+new.password = New password
+confirm.password = Confirm password
+update =Update
+remove = Remove
+edit = Edit
+create.folder = Create Folder
+folder_name = Folder name
+select.file = Please select a file to see activity
+metadata = Metadata
+select.msg = Please select
+recent_activity = Recent Activity
+recent = Recent
+by= by
+upload = Upload
+size = Size
+modified = Modified date
+delete = Delete
+rename = Rename
+share = Share
+previous_versions= Previous versions
+download = Download
+add = Add
+login-activity=Login Activities
+versions.msg= has only one version. If at some point you make changes to it you can later restore it to an older version.
+snapshot.msg1 = We keep a snapshot every time you save a file. You can download and revert the contents of
+snapshot.msg2 = by choosing one of the versions listed below
+version = Version
+action = Action
+current = Current
+user_emails = User emails
+specific_users = Specific Users
+password_protected = Password protected
+public = Public
+revoke = Revoke
+access = Access
+link = Link
+share_file = Share File
+share_folder = Folder Sharing
+done = Done
+upload_files = Upload files
+select_file = Select File
+elements = Elements
+new_element = New element
+
+administration = Administration
+logout = Logout
+login = login
+
+reset_password = Reset password
+
+owner = Owner
+members = Members
+user_groups = User groups
+new_group = Create group
+
+user.back_list = Go to users
+user.details = User details
+
+add_member = Add member
+joined = Joined
+
+back_to_groups = Return to groups
+group_name = Group Name
+create.group = Create Group
+groups = Groups
+add_members = Add members
+
+change = Change
+
+remove_group = Delete group
+
+remove_metadata_msg = Do you want to remove {{key}} metadata?
+remove_group_msg = Are you sure you want to delete group?
+remove_member_msg = Do you want to remove user 
+
+WebDav.FileNotFound = Could not find path at {0}
+
+remove_principal_msg = Are you sure you want to remove principal?
+user_or_groups = User or group names
+security = Security
+add_principal = User email or group name
+permissions_for = Permissions for
+allow = Allow
+permissions_updated = Permissions have been successfully updated
+principal_removed_from_path = Principal successfully removed from path
+principal_added_to_path = Principal successfully added to path
+principal_exists = User or group already exists for file
+
+File_Preview = Preview file
+File_View = View File
+File_ViewHistory = View activity on file
+File_Modify = Modify file
+File_Delete = Delete File
+File_Rename = Rename File
+Folder_View = List folder contents
+Folder_Add = Add files to folders
+Folder_Remove = Remove folder
+Folder_Move = Move folder
+Folder_Allow_Acces = Allow access to folder
+Folder_Remove_Access = Remove access to folder
+View_Permissions = View access members
+Restore_files_folders = Restore files or folders
+View_activity = View activity
+
+permissions_default_error_msg = You don't have necessary permissions for the resource
+permission_cannot_view_folder = You cannot list files on folder {0}
+permission_cannot_add_folder = You cannot add files to folder {0}
+permission_cannot_remove_folder = You cannot remove files from folder {0}
+permission_cannot_delete_file = You cannot delete file {0}
+permission_cannot_modify_file = You cannot modify file {0}
+permission_cannot_history_file = You cannot list file versions
+permission_cannot_rename_file = You cannot rename this file
+permission_cannot_view_permissions = You cannot view file permissions {0}
+permission_cannot_allow_access = You cannot allow access on folder {0}
+permission_cannot_remove_access = You cannot remove access to folder {0}
+permission_cannot_view_activity = You cannot view activity for file {0}
+permission_cannot_restore_file = You cannot restore file {0}
+permission_cannot_move_folder = You cannot move {0}
+viewer = Viewer
+editor = Editor
+employee = Employee
+owner = Owner
+select = Select
+
+file_renamed = File successfully renamed
+file.deleted = File successfully deleted
+
+permission_cannot_view_file = You don't have the permissions to download the file
+internal_error = An unexpected error ocurred.
+
+confirm_file_deletion = ¿Do you want to delete {file} file?
+confirm_files_deletion = ¿Do you want to delete {files} selected files?
+
+
+error_restoring_file = An error occurred while restoring this version
+successful_restored = Successfully reverted to a previous version
+
+personal_directory = Personal directory
+
+shares_not_found = Shared folder not found
+home = Home
+shares = Shares
+
+folder_shared = Folder has been successfully shared, you can access it in the Shares tab
+
+move_to_shares = Make public shared folder
+share_name = Name for the shared folder
+
+user_role = Role
+user_role.required = The role is required
+
+user = User
+power_user = Power User
+
+account.delete_user = Delete user
+
+cannot_view_files = You cannot view files and folders
+cannot_create_users = You cannot create or modify users
+user_not_found = User not found
+
+invalid_account = Invalid account
+
+settings = Settings
+details = Details
+
+reset_password_for = Reset password for user
+reset_pass = Reset password
+error = Error
+
+existent_termstore = Term store already exists
+invalid_termstore = Invalid term store
+
+invalid_upload_id = Invalid upload identifier
+
+no_preview = No available preview
+
+show_archived = Show Archived
+show_hidden_files = Show hidden files
+
+successfully_deleted = {0} has been successfully deleted
+successfully_deleted_s = {0} files have been successfully deleted
+file_restored = Files successfully restored
+
+folder_unshared = Folder has been unshared, you can access it from your home folder
+
+view = View
+
+permission = Permission group
+can_do = Permissions
+permissions = Permissions
+policy = Policy
+
+set_recursively = Apply to all subfolders
+
+confirm_upload_cancel = There are some uploads in progress, ¿Do you want to cancel?
+
+upload_completed = upload completed
+uploads_completed = uploads completed
+processing = Processing
+click_drag_drop = Click or Drag and Drop here!
+drag_drop = Drag and Drop here!
+type = Type
+location = Location
+uploading_file = Uploading file
+select_folder = Select destination folder
+
+confirm_new_version_message = A file with the same name for {0} already exists in the folder {1}, ¿do you want to add a new version?
+
+user_email = Write the user email
+
+remove_member = Remove Member
+back_to_group = Back to group
+menu = Menu
+search_file = Search File..
+no_email_match = No emails matching
+
+loading = Loading...
+were_found = were found.
+users_list = Users list
+password_policies = Password Policies
+length_requirements = Length requirements
+minimum = Minimum
+maximum = Maximum
+character_requirements = Character requirements
+uppercase = Uppercase
+lowercase = Lowercase
+numeric = Numeric
+symbols = Symbols
+additional_requirements = Additional requirements
+prevent_username_as_password = Prevent username as password
+two_factor_auth = Two factor auth
+two_factor_enabled = Two factor enabled
+two_factor_mandatory = Two factor mandatory
+auth_key = Authy key
+password_retention_policy = Password retention policy
+prevent_password_reuse = Prevent password reuse
+force_change = Force change after x days :
+loading = Loading...
+
+move_to = Move to
+copy_to = Copy to
+operation_not_allowed = Operation not allowed
+
+files_moved = {0} files have been successfully moved
+files_copied = {0} files have been successfully copied
+archive = Archive
+
+no_results_match = No results matching
+search_results_for = Search results for:

@@ -1,0 +1,43 @@
+@* users Template File *@
+@import controllers.admin._
+@import controllers.admin.routes
+@import zyber.server.dao.admin.Tenant
+
+@(tenant: Tenant, users: Seq[zyber.server.dao.User])(implicit rs: UserRequest[_], messages: Messages)
+
+@views.html.admin.main(messages("tenant_users")){
+	<div class="container">
+		<div class="page-header">
+				<h1>
+					@messages("tenant"): <small>@tenant.getTenantName</small>
+				</h1>
+		</div>
+		<ul class="nav nav-tabs">
+		  <li role="presentation"><a href="@routes.TenantsController.viewTenant(tenant.getTenantId.toString)">@messages("details")</a></li>
+		  <li role="presentation" class="active"><a href="@routes.TenantsController.tenantUsers(tenant.getTenantId.toString)">@messages("users")</a></li>
+		</ul>
+		<div class="container">
+			<div align="right">
+				<a class="btn btn-default" href="@routes.TenantsController.newAccount(tenant.getTenantId.toString)">@messages("create_user")</a>
+			</div>
+			<table class="table table-striped">
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>---</th>
+			</tr>
+			@for(user <- users){
+				<tr>
+					<td>
+						@user.getName
+					</td>
+					<td>@user.getEmail</td>
+					<td>
+						<a href="@routes.TenantsController.editUser(tenant.getTenantId.toString, user.getUserId.toString)">@messages("reset_password")</a>
+					</td>
+				</tr>
+			}
+			
+		</table>
+	</div>
+}(Some(rs), messages)

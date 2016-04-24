@@ -1,0 +1,66 @@
+<!-- <div class="modal-header">
+	<h5 class="modal-title">{{file.name}}</h5>
+</div>
+<div class="modal-body">
+	<center>
+	
+<!-- File preview using ViewerJs -->
+<!-- 		<div ng-switch on="fileType"> -->
+<!-- 			<div ng-switch-when="document"><iframe src = "{{'/assets/lib/viewerjs/ViewerJS/index.html#../../../../api/download/' + file.uuid}}"  -->
+<!-- 			width='800' height='450' allowfullscreen webkitallowfullscreen></iframe></div> -->
+<!-- 			<div ng-switch-when="image"> -->
+<!-- 				<img src="{{'/api/download/' + file.uuid}}" alt="{{file.name}}" style="width:550px;height:400px;"> -->
+<!-- 			</div> -->
+<!-- 			<div ng-switch-default> -->
+<!-- 			<!-- No preview available -->
+
+<!-- 				<img src="assets/images/logos/Zyber_Logo_Blue_M.jpg"> -->
+<!-- 				<h3>{{"no_preview"|translate}}</h3> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+
+<!-- File preview using GroupDocs -->
+<div ng-switch on="fileType">
+	<div ng-switch-when="document">
+		<iframe src="{{'/doc/viewer?path=' + file.uuid}}" width='800'
+			height='450' allowfullscreen webkitallowfullscreen></iframe>
+	</div>
+	<div ng-switch-default>
+		<!-- No preview available -->
+		<!-- <img src="assets/images/logos/Zyber_Logo_Blue_M.jpg">
+				<h3>{{"no_preview"|translate}}</h3>
+			</div>
+		</div>
+		
+		<h4>{{file.name}}</h4>
+		<small>{{file.modifiedPretty}} - {{"size"|translate}}: {{file.size}}</small>
+	</center>
+</div>
+<div class="modal-footer"> -->
+		<!-- 	<button class="btn btn-primary">Download</button> -->
+		<!-- <button class="btn btn-warning" ng-click="cancel()">{{"done"|translate}}</button> -->
+		<!-- <a ng-href="{{url}}" class="btn btn-primary"
+		target="_self">{{"download"|translate}}</a> -->
+		<!-- <button class="btn btn-primary" ng-click="downloadFile()">{{"download"|translate}}</button> -->
+		<!-- </div> -->
+
+		<div>
+			<md-toolbar>
+			<div class="md-toolbar-tools">
+				<i class="mdi mdi-eye"></i>&nbsp;&nbsp;
+				<h2>{{file.name}}</h2>
+				<span flex></span> <a href="javascript:;" style="float: right"
+					ng-click="cancel()"><i class="mdi mdi-close"></i></a>
+			</div>
+			</md-toolbar>
+			<div class="panel-body">
+				<md-input-container class="md-block" flex-gt-sm>
+				<img src="assets/images/logos/Zyber_Logo_Blue_M.jpg"> <!-- <h4>{{file.name}}</h4> -->
+				<!-- <small>{{file.modifiedPretty}} - {{"size"|translate}}: {{file.size}}</small> -->
+				</md-input-container>
+				<md-dialog-actions layout="row"> <span flex></span>
+				<md-button ng-click="cancel()"> {{"done"|translate}} </md-button> <md-button
+					ng-click="downloadFile()"> {{"save"|translate}} </md-button> </md-dialog-actions>
+			</div>
+		</div>
+	</div>

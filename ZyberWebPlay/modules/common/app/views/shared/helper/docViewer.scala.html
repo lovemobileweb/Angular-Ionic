@@ -1,0 +1,13 @@
+@* docViewer Template File *@
+@(viewerHeaders: String, viewerScript: String)(implicit messages: Messages)
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Document viewer</title>
+        @Html(viewerHeaders)
+    </head>
+    <body>
+        <div id="groupDocsViewer"></div>
+        @Html(viewerScript)
+    </body>
+</html>

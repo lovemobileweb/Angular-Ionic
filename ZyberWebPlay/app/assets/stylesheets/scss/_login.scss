@@ -1,0 +1,172 @@
+/* Login page styles */
+
+.login-overlay {
+	position: relative;
+	text-align: center;
+	top: 0;
+	left: 0;
+	right: 0;
+	padding-bottom: 200px;
+	min-height: 100vh;
+	background: #f5f5f5;
+	-webkit-transition: all .4s cubic-bezier(0.175, 0.885, 0.335, 1.05);
+	transition: all .4s cubic-bezier(0.175, 0.885, 0.335, 1.05);	
+		&:after {
+			position: absolute;
+			top: 0;
+			width: 100%;
+			height: 300px;
+			left: 0;
+			right: 0;
+			background-image: url('../images/login-cover.jpg');
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;			
+			background-repeat:no-repeat;
+			background-color: $primary;
+			background-position: center center;
+			content: "";
+			box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.14);
+		}
+
+	.logo {
+		display: block;
+		margin: 0 auto;
+		position: relative;
+		z-index: 1;
+		text-transform: uppercase;
+		color: white;
+		letter-spacing: 1px;
+		top: 50px;
+	}
+	.header {
+		margin: 0;
+		font-size: 20px;
+		font-weight: 100;
+		text-transform: uppercase;
+	}
+
+	.form-container {
+	    position: relative;
+	    z-index: 1;
+	    top: 100px;
+	    background: #ffffff;
+	    width: 50%;
+	    margin: 0 auto;
+    	
+	    .inputs {
+	    	text-align:left;
+	    	max-width: 500px;
+	    	margin: 0 auto;
+	    	padding: 30px 15px;
+	    	input[type="text"], input[type="password"], input[type="email"], textarea {
+	    		width: 100%;
+	    		min-height: 40px;
+	    		padding: 0;
+	    		box-sizing: border-box;
+	    		-moz-box-sizing: border-box;
+	    		-webkit-box-sizing: border-box;
+	    		border: none;
+	    		border-bottom: solid 1px #ddd;
+	    		padding: 5px 10px;
+	    		margin-bottom: 5px;
+	    		font-size: 14px;
+	    		background-color: #f4f4f4;
+	    	}
+	    	label {
+	    		font-size: 11px;
+	    		text-transform: uppercase;
+	    		display:block;
+	    		margin-top:15px;
+	    	}
+	    	.buttons {
+	    		width: 100%;
+	    		margin: 5px auto;
+	    		md-checkbox {
+	    			text-align: initial;
+	    			float: left;
+	    			display: inline-block;
+	    		}
+	    		.signup {
+	    			float: right;
+	    			margin-top: 15px;
+	    			a {
+	    				text-decoration: none;
+	    				color: $primary;
+	    			}
+	    		}
+				.link {
+					padding-top: 40px;
+					padding-bottom: 30px;
+					.mdl-button {
+						background: $primary;
+						color: white;
+						font-weight: 100;
+						width: 25%;
+						font-size: 15px;
+					}
+				}
+	    	}
+	    }
+	}
+	.help-block {
+		font-size: 12px;
+		color: #ff0000;
+	}	
+}
+
+h5.four {
+	font-size: 50px;
+}
+
+div.not-found {
+	font-size: 28px;
+	padding-bottom: 50px;
+}
+
+.login-footer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 10px 30px;
+	background-color: white;
+	-webkit-box-shadow: 0px -1px 2px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0px -1px 2px rgba(0, 0, 0, 0.1);
+	box-shadow: 0px -1px 2px rgba(0, 0, 0, 0.1);
+	.mdl-logo {
+		color: #88878B;
+	}
+}
+
+
+	
+
+@media screen and (max-width: 990px) {
+    .form-container {
+        width: 75% !important;
+    }
+}
+
+@media screen and (max-width: 490px) {
+    .logo {
+        top: 40px !important;
+    }
+    .form-container {
+    	top: 60px !important;
+    	width: 90% !important;
+    	.mdl-textfield {
+    		width: 85% !important;
+    	}
+    }
+     .mdl-mini-footer.login-footer {
+        text-decoration: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        .mdl-mini-footer__left-section, .mdl-mini-footer__right-section {
+        	width: 100%;
+        	display: block;
+        }
+    }
+}

@@ -1,0 +1,25 @@
+@* header Template File *@
+@import controllers.admin._
+@import controllers.admin.routes
+@()(implicit rs: Option[UserRequest[_]] = None, messages: Messages)
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href='#'>Zyber web tenants</a>
+    </div>
+     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="@routes.TenantsController.tenants()">@Messages("tenants")</a></li>
+        <li><a href="@routes.LoginController.viewUsers()">@Messages("tenantAdmin")</a></li>
+      </ul>
+        
+     @rs.map{ u =>
+            	<p class="navbar-text navbar-right">@{messages("message_welcome")} @{ if (u.user.getName() != null || u.user.getName().length > 0) u.user.getName() else u.user.getUsername()}
+            		<a  target="_self" href="@routes.LoginController.logout()"> @messages("logout")</a>
+            	</p>
+            }.getOrElse{
+            	<p class="navbar-text navbar-right"><a href="@routes.LoginController.login()" target="_self">@messages("login")</a></p>
+            }
+    </div>
+  </div><!-- /.container-fluid -->
+</nav>

@@ -1,0 +1,53 @@
+@* createUser Template File *@
+@import controllers.admin._
+@import controllers.admin.routes
+@import zyber.server.dao.admin.TenantAdmin
+
+@(userId: String, uf: Form[TenantAdmin])(implicit rs: Option[UserRequest[_]], messages: Messages)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(views.html.shared.helper.bootstrapInput.f) }
+
+@scripts = {
+	@views.html.shared.helper.accountHelper()
+	@views.html.shared.helper.resetPassHelper()
+}
+
+@views.html.admin.main(messages("edit_user"), scripts){
+	@views.html.shared.helper.notifications(rs.get.flash)
+	<div class="container">
+		@form(routes.LoginController.updateDeleteUser(userId)) {
+			<center>
+				<h2>@messages("edit_user")</h2>
+				<div align="left"  style="width:400px" >
+					<fieldset>
+							@helper.inputText(uf("name"), args = '_label -> messages("name"), 'class -> "form-control")
+							@helper.inputText(uf("username"), args = '_label -> messages("username"), 'class -> "form-control")
+							@helper.checkbox(uf("reset_pass"), args = '_label -> messages("reset_pass"))
+							
+							<div class="form-group" id="password-control">
+								 <label for="password" >@messages("password")</label>
+								 <div >
+								   <input type="password" id="password" name="password" class="form-control">
+								   <span id="password-block" class="help-block"></span>
+								 </div>
+							</div>
+							<div class="form-group" id="confirm-control">
+								 <label for="Confirm" >@messages("confirm")</label>
+								 <div >
+								   <input type="password" id="confirm" name="confirm" class="form-control">
+								   <span id="confirm-block" class="help-block"></span>
+								 </div>
+							</div>
+					</fieldset>
+					<div class="actions">
+				      <button type="submit" name="action" value='update'  class="btn primary" id="create-btn">@messages("account.update")</button>
+				      <button type="submit" name="action" value='delete'  class="btn btn-danger" id="delete-btn">@messages("account.delete")</button>
+				      <a role="button" class="btn btn-danger" href="@routes.LoginController.viewUsers()">@messages("cancel")</a>
+				    </div>
+				</div>
+			</center>
+		}
+	</div>
+}

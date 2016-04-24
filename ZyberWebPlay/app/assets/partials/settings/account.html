@@ -1,0 +1,130 @@
+<md-subheader class="md-primary m-n page-content">
+	<div style="font-size: 16px;">{{"settings" | translate}}</div>
+</md-subheader>
+<div class="settings-page-content">
+	<div>
+		<div class="page-header">
+			<md-card class="no-margin">
+		        <md-card-title>
+		          	<md-card-title-text>
+		            	<span class="md-headline">{{user.name}}
+		            	<a href="#" ng-click="changePassword(); $event.preventDefault();" class="change-password-text">
+		            		{{'change.password' | translate}}</a></span>
+		            	<span class="md-subhead">{{user.email}}</span>
+		          	</md-card-title-text>
+		        </md-card-title>
+		        <md-card-content>
+		            <form role="form" novalidate name="accountDetail">
+		            	<md-input-container class="md-block no-margin">
+		                    <label>{{'name' | translate}}</label>
+		                    <input type="text" ng-model="user.name" id="name" name="name" required>
+		                    <div ng-messages="accountDetail.name.$dirty && accountDetail.name.$error">
+		                      	<div ng-message="required">{{'name.required' | translate}}</div>
+		                    </div>
+		                </md-input-container>
+    	            	<md-input-container class="md-block no-margin">
+                	        <label>{{'email' | translate}}</label>
+                	        <input type="email" ng-model="user.email" id="email" name="email" required/>
+                	        <div ng-messages="accountDetail.email.$dirty && accountDetail.email.$error" >
+                	          	<div ng-messages-include="assets/partials/admin/messages.html"></div>
+                	        </div>
+    	            	</md-input-container>
+    	            	<md-input-container class="md-block no-margin">
+		            	     <label>{{'language' | translate}}</label>
+		            	     <md-select name="language" id="language" ng-model="user.selectedLanguage" required>
+		            	        <md-option ng-repeat="option in languages" ng-value="option">{{option.value}}</md-option>
+		            	    </md-select>
+		            	    <div class="errors" ng-messages="accountDetail.email.$language && accountDetail.language.$error">
+		            	        <div ng-message="required">{{'language.required' | translate}}</div>
+		            	    </div>
+	            	    </md-input-container>
+            	    	<!-- <md-input-container class="md-block no-margin">
+            	            <label>{{'mobile' | translate}}</label>
+            	            <input type="text" ng-model="user.mobile" id="mobile" name="mobile" required>
+            	            <div ng-messages=" accountDetail.mobile.$dirty && accountDetail.mobile.$error">
+            	              	<div ng-message="required">Mobile no required.</div>
+            	            </div>
+            	        </md-input-container> -->
+            	        <div layout="row" layout-xs="column" layout-sm="column" style="margin-top: 30px">
+		            	    <div flex="50" flex-xs="100" flex-sm="100" ng-class="{ 'has-error': accountDetail.mobile.$dirty && accountDetail.mobile.$invalid }" ng-required="true" style="margin-bottom: 15px;"> <!--TODO only when mandatory-->
+		            	    	<label for="mobile" style="margin-right: 15px;">{{'mobile' | translate}}</label> 
+		            	    	<input type="text" class="form-control" ng-model="user.mobile" id="mobile" name="mobile">
+		            	    </div>
+		            	    <div flex="50" flex-xs="100" flex-sm="100">
+			            	    <md-checkbox ng-model="user.twoFactor" id="twoFactor" name="twoFactor" aria-label="twoFactor">
+			            	        {{'twoFactor' | translate}}
+			            	    </md-checkbox>
+		            	    </div>
+	            	    </div>
+	            	   <!--  <div class="form-group">
+	            	    	<label for="language">{{'language' | translate}}</label> <select
+	            	    		name="language" id="language" class="form-control"
+	            	    		ng-options="option.value for option in languages track by option.cod"
+	            	    		ng-model="user.selectedLanguage" required></select>
+	            	    	<div class="error-container"
+	            	    		ng-messages="accountDetail.email.$language && accountDetail.language.$error">
+	            	    		<div class="messages">
+	            	    			<div ng-message="required">{{'language.required' | translate}}</div>
+	            	    		</div>
+	            	    	</div>
+	            	    </div> -->
+	            	</form>
+	            </md-card-content>
+		        <md-card-actions layout="row" layout-align="end center">
+		        	<md-button ng-click="save(user)" ng-disabled="accountDetail.$invalid">{{'save' | translate}}</md-button>
+		        </md-card-actions>
+		    </md-card>
+		    </div>
+			<!-- <form role="form" novalidate name="accountDetail">
+				<div class="form-group"
+					ng-class="{ 'has-error': accountDetail.name.$dirty && accountDetail.name.$invalid }">
+					<label for="name">{{'name' | translate}}</label> <input
+						type="text" class="form-control" ng-model="user.name" id="name"
+						name="name" required>
+					<div class="error-container"
+						ng-messages="accountDetail.name.$dirty && accountDetail.name.$error">
+						<div class="messages">
+							<div ng-message="required">{{'name.required' | translate}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group"
+					ng-class="{ 'has-error': accountDetail.email.$dirty && accountDetail.email.$invalid }">
+					<label for="email">{{'email' | translate}}</label> <input
+						type="email" class="form-control" ng-model="user.email" id="email"
+						name="email" required>
+					<div class="error-container"
+						ng-messages="accountDetail.email.$dirty && accountDetail.email.$error">
+						<div ng-messages-include="assets/partials/admin/messages.html"></div>
+					</div>
+				</div>
+				<div> <!--TODO hide this if not enabled-->
+					
+					
+				
+				<!-- <div class="form-group">
+					<label for="language">{{'language' | translate}}</label> <select
+						name="language" id="language" class="form-control"
+						ng-options="option.value for option in languages track by option.cod"
+						ng-model="user.selectedLanguage" required></select>
+					<div class="error-container"
+						ng-messages="accountDetail.email.$language && accountDetail.language.$error">
+						<div class="messages">
+							<div ng-message="required">{{'language.required' | translate}}</div>
+						</div>
+					</div>
+				</div> -->
+		</div>
+	</div>
+
+	<!-- <div class="well well-sm hide">{{'security' | translate}}</div> -->
+	
+</div>
+
+<script type="text/ng-template" id="editAccount.html">
+	<ng-include src="'assets/partials/settings/editAccount.html'"></ng-include>
+</script>
+
+<script type="text/ng-template" id="changePassword.html">
+	<ng-include src="'assets/partials/settings/changePassword.html'"></ng-include>
+</script>

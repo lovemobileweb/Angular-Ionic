@@ -1,0 +1,50 @@
+<!-- <h2>{{"user_groups"|translate}}</h2>
+
+<div class="container">
+	<div align="right">
+		<a class="action-link" ng-click="createGroup()">{{"new_group" | translate}}</a>
+	</div>
+	<table class="table">
+		<tr>
+			<th>{{"name" | translate}}</th>
+			<th>{{"owner" | translate}}</th>
+			<th>{{"members" | translate}}</th>
+		</tr>
+		<tr ng-repeat="group in groups">
+			<td> <a ui-sref="admin.groups.view({groupId: group.uuid})">{{group.name}}</a></td>
+<!-- 			<td>{{group.owner.name}}</td>
+			<td>{{group.members}}</td>
+		</tr>
+	</table>
+</div> --> 
+<div class="admin-page-content">
+	<md-card class="mr-0 ml-0 relative">
+		<div class="card-button">
+			<md-button class="primary mr-0 mt-0" ng-click="createGroup()" >{{"new_group" | translate}}</md-button>
+		</div>
+		<md-card-title>
+		    <md-card-title-text>
+		        <span class="md-headline">{{"user_groups"|translate}}</span>
+		    </md-card-title-text>
+		</md-card-title>
+	    <md-table-container>
+	      <table md-table class="user-list-table responsive-table groups-table">
+	        <thead md-head >
+	          	<tr md-row>
+	                <th md-column>{{"name" | translate}}</th>
+	                <th md-column>{{"members" | translate}}</th>
+	            </tr>
+	        </thead>
+	        <tbody md-body>
+	            <tr md-row ng-repeat="group in groups">
+	                <td md-cell data-th="{{'name' | translate}}"><a ui-sref="admin.groups.view({groupId: group.uuid})">{{group.name}}</a></td>
+	                <td md-cell data-th="{{'members' | translate}}">{{group.members}}</td>
+	            </tr>
+	        </tbody>
+	      </table>
+	    </md-table-container>
+	</md-card>
+</div>
+<script type="text/ng-template" id="createGroup.html">
+	<ng-include src="'assets/partials/admin/createGroup.html'"></ng-include>
+</script>

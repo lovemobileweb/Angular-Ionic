@@ -1,0 +1,79 @@
+<!-- <div class="modal-header">
+	<h3 class="modal-title">{{"add_members" | translate}}</h3>
+</div>
+<div class="modal-body">
+	<form role="form" novalidate name="">
+		<div class="form-group">
+			<label for="usersF">{{"user_emails"|translate}}</label>
+			<textarea id="usersF" name="users" class="form-control" ng-model="members.emails" rows="2"></textarea>
+		</div>
+		<div ng-show="info" class="info-container">
+			<div class="alert alert-info">
+				{{info}}
+			</div>
+		</div>
+		<div ng-show="error" class="error-container">
+			<div class="alert alert-danger">
+				{{error}}
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" ng-click="cancel()">{{"cancel"|translate}}</button>
+	<button type="button" class="btn btn-primary" ng-click="saveMembers(members.emails)"
+			>{{"save"|translate}}</button>
+</div> -->
+
+<md-toolbar>
+<div class="md-toolbar-tools">
+	<i class="mdi mdi-account-multiple-plus"></i>&nbsp;&nbsp;
+	<h2>{{"add_members" | translate}}</h2>
+	<span flex></span> <a href="javascript:;" style="float: right"
+		ng-click="cancel()"><i class="mdi mdi-close"></i></a>
+</div>
+</md-toolbar>
+<div class="panel-body">
+	<form role="form" novalidate name="">
+		<!-- <md-input-container style="width:100%" class="mb-0"> -->
+		<table md-table class="responsive-table">
+			<tbody md-body>
+				<tr md-row ng-repeat="email in emails">
+					<td md-cell data-th="Email">{{email}}</td>
+					<td md-cell data-th="Action" class="action-btn">
+						<a class="md-button md-raised" href="javascript:;"
+						ng-click="removeEmail(email)"><i
+							class="mdi mdi-close" style="color: #ffffff; font-size: 16px;"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<!-- <label>{{"user_emails"|translate}}</label> --> <!-- 	        <textarea id="usersF" name="users" class="form-control" ng-model="members.emails" rows="2"></textarea> -->
+			<md-autocomplete ng-keyup="$event.keyCode == 13 && addEmail(selected)"
+				md-search-text-change="querySearch(searchText)"
+				md-selected-item-change="selectedItemChange(item)"
+				md-search-text="$parent.searchText" md-items="item in users"
+				md-item-text="item.email" md-min-length="0"
+				placeholder="{{'user_email'|translate}}"> 
+				<md-item-template>
+					<span md-highlight-text="searchText" md-highlight-flags="^i">{{item.email}}</span>
+				</md-item-template> 
+				<md-not-found> 
+				{{"no_email_match" | translate}} "{{searchText}}" {{"were_found" | translate}}
+				</md-not-found> 
+				</md-autocomplete> 
+		<!-- </md-input-container> -->
+		<div ng-show="info" class="info-container">
+			<div class="alert alert-info">{{info}}</div>
+		</div>
+		<div ng-show="error" class="error-container">
+			<div class="alert alert-danger">{{error}}</div>
+		</div>
+	</form>
+</div>
+<md-divider inset></md-divider>
+<md-dialog-actions layout="row"> <span flex></span>
+<md-button ng-click="cancel()">{{"cancel"|translate}}</md-button> 
+<md-button ng-click="saveMembers(emails)">{{"save"|translate}}</md-button> 
+</md-dialog-actions>

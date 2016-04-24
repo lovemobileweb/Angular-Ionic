@@ -1,0 +1,37 @@
+@import util.UserRequest
+@(title: String, scripts: Html = Html(""))(content: Html)(implicit rs: Option[UserRequest[_]] = None, messages: Messages)
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>@title</title>
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.ico")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@Linker.bower("bootstrap.css")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@Linker.bower("mdi/materialdesignicons.css")">
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("example.css")">
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/intTelInput.css">
+        <script src="@Linker.bower("jquery/jquery.js")" type="text/javascript"></script>
+        <script src="/assets/javascripts/intTelInput.min.js" type="text/javascript"></script>
+        <script src="/assets/javascripts/util.js" type="text/javascript"></script>
+        <script src="@Linker.bower("underscore/underscore.js")" type="text/javascript"></script>
+        @scripts
+    </head>
+    
+    <body class="extended">
+        <div class="loading">
+            <span class="image-wrapper"><div class="logo-image"><img src="assets/images/zyber-logo.png" alt=""></div>
+            <div class="spinner"><img src="assets/images/rolling.gif" alt=""></div></span>
+        </div>
+    
+        <div class="page-wrapper mdl-layout mdl-js-layout mdl-layout--fixed-header" ng-cloak>
+            @common.header()
+            @common.sidebar()
+        
+            <div class="content-holder">
+                @content
+            </div>
+            @views.html.shared.footer()
+        </div>
+    </body>
+</html>

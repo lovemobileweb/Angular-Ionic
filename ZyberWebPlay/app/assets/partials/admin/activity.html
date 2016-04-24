@@ -1,0 +1,121 @@
+<div class="admin-page-content">
+    <div>
+        <!-- <label>{{"mode" | translate}}</label>
+        <label class="radio-inline"><input type="radio" ng-model="mode" value="file" name="mode" ng-change="reset()">{{"file" | translate}}</label>
+        <label class="radio-inline"><input type="radio" ng-model="mode" value="time" name="mode" ng-change="reset()">{{"time" | translate}}</label>
+         -->
+        <label class="access-label-text">{{"mode" | translate}}</label>
+        <md-radio-group ng-model="mode" class="modal-radios" ng-change="reset()">
+            <md-radio-button value="file" name="mode" class="md-primary">{{"file" | translate}}</md-radio-button>
+            <md-radio-button value="time" name="mode">{{"time" | translate}}</md-radio-button>
+        </md-radio-group>
+    </div>
+    <div layout="row" layout-align="space-between stretch">
+        <md-card flex-gt-sm="66" flex="66" style="margin-left: 0"> 
+            <md-toolbar class="bg-primary">
+                <div class="md-toolbar-tools">
+                    <small>{{"activity.title" | translate}}</small>
+                </div>
+            </md-toolbar>
+            <md-card-content>
+                <div>
+                    <div ng-show="mode == 'file'">
+                        <div class="panel panel-default"
+                             ng-repeat="fileActivity in activities">
+                            <h3>{{fileActivity.path.name}}</h3>
+                            <div class="" ng-repeat="activity in fileActivity.activities"
+                                 style="border: 1px solid ;padding: 5px;margin-bottom: 5px">
+                                <div class="">
+                                    <strong>{{activity.action}}</strong> {{"by" | translate}} {{activity.user.name}} {{"at" | translate}}
+                                    {{activity.prettyTimestamp}}
+                                    <p class="list-group-item-text">{{"note" | translate}} : {{activity.note}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="mode == 'time'">
+                        <div class="panel panel-default"
+                             ng-repeat="activity in activities" style="border: 1px solid;padding: 5px;margin-bottom: 5px">
+                                <strong>{{activity.pathName}}</strong> -- <strong>{{activity.action}}</strong> {{"by" | translate}}
+                                    {{activity.user.name}} {{"at" | translate}} {{activity.prettyTimestamp}}
+                                    <p class="list-group-item-text">{{"note" | translate}} : {{activity.note}}</p>
+                        </div>
+                    </div>
+                </div>
+            </md-card-content>
+        </md-card>
+        <md-card flex-gt-sm="33" flex="33" style="margin-right: 0"> 
+            <md-toolbar class="bg-primary">
+                <div class="md-toolbar-tools">
+                    <small>{{"details" | translate}}</small>
+                </div>
+            </md-toolbar>
+            <md-card-content>
+                <table class="table table-hover sortable-table tableSection">
+                    <thead>
+                        <tr>
+                            <th>{{"name" | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="file in files" ng-click="setSelected(file)">
+                            <td><img width="20" ng-if="file.isDirectory"
+                                     src='assets/images/icons/folder.png'> <a
+                                    ng-click="filterPath(file.name)"
+                                    class="folder-file">{{file.name}} </a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>
+<!-- <div id="rightpanel" style="width: 400px;">
+    <table class="table table-hover sortable-table tableSection">
+        <thead>
+            <tr>
+                <th>{{"name" | translate}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="file in files" ng-click="setSelected(file)">
+                <td><img width="20" ng-if="file.isDirectory"
+                         src='assets/images/icons/folder.png'> <a
+                        ng-click="filterPath(file.name)"
+                        class="folder-file">{{file.name}} </a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="panel panel-default" id="mainbody" style="margin-right: 400px">
+    <div class="panel-body">
+        <div>
+            <div>
+                <div><h4>{{"activity.title" | translate}}</h4></div>
+                <div ng-show="mode == 'file'">
+                    <div class="panel panel-default"
+                         ng-repeat="fileActivity in activities">
+                        <h3>{{fileActivity.path.name}}</h3>
+                        <div class="" ng-repeat="activity in fileActivity.activities"
+                             style="border: 1px solid;padding: 5px;margin-bottom: 5px">
+                            <div class="">
+                                <strong>{{activity.action}}</strong> {{"by" | translate}} {{activity.user.name}} {{"at" | translate}}
+                                {{activity.prettyTimestamp}}
+                                <p class="list-group-item-text">{{"note" | translate}} : {{activity.note}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="mode == 'time'">
+                    <div class="panel panel-default"
+                         ng-repeat="activity in activities" style="border: 1px solid;padding: 5px;margin-bottom: 5px">
+                            <strong>{{activity.pathName}}</strong> -- <strong>{{activity.action}}</strong> {{"by" | translate}}
+                                {{activity.user.name}} {{"at" | translate}} {{activity.prettyTimestamp}}
+                                <p class="list-group-item-text">{{"note" | translate}} : {{activity.note}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

@@ -1,0 +1,51 @@
+@* Sidebar Template File *@
+@()(implicit rs: Option[util.UserRequest[_]] = None, messages: Messages)
+
+
+<aside id="" class="sidebar" ng-controller="sidebarctrl">
+	<div class="top-logo">
+		<img src="assets/images/zyber-logo-sm.png" alt="" style="width: 30px;">
+	</div>
+	<div class="top-logo-extended">
+		<img src="assets/images/zyber-logo.png" alt="" style="width: 100px;">
+	</div>
+	<div class="scrollbar" id="scroll">
+		<div class="dashboard-menu">
+		@rs.map{ u =>
+			<div class="menu-heading">
+				<span class="menu-text">{{"menu" | translate}}</span>
+				<span class="backburger-btn l-r"><a href="" ng-click="extend()"><i class="mdi mdi-backburger"></i></a></span>
+				<span class="backburger-btn r-l"><a href="" ng-click="extend()"><i class="mdi mdi-backburger"></i></a></span>
+			</div>
+			<ul class="menu-list">
+				<li ng-class="{'active':(location.path().indexOf('/home') > -1)}">
+					<md-button href="@zyberapp.routes.HomeController.home("")" ><i class="mdi mdi-home"></i>  <span class="text">@messages("home")</span></md-button>
+				</li>
+				<li ng-class="{'active':(location.path().indexOf('/shares') > -1)}">
+					<md-button href="@zyberapp.routes.HomeController.shares("")" class=""><i class="mdi mdi-account-multiple"></i>  <span class="text">@messages("shares")</span></md-button>
+				</li>
+				<li ng-class="{'active':(location.path() == '/trash')}">
+					<md-button href="/trash" class=""><i class="mdi mdi-archive"></i>  <span class="text">@messages("Archive")</span></md-button>
+				</li>
+				<li ng-class="{'active':(location.path() == '/settings')}">
+					<md-button target="_self" href="@zyberapp.routes.SettingsController.settings()" class=""><i class="mdi mdi-settings"></i>  <span class="text">@messages("settings")</span></md-button>
+				</li>
+				@rs.map{ur =>
+		            	@ur.abilities.map{ ab =>
+		            		@if(ab.isPowerUser){
+							<li ng-class="{'active':(location.path() == '/admin')}">
+								<md-button target="_self" href="@zyberapp.routes.AdminController.admin()" class=""><i class="mdi mdi-account-circle"></i>  <span class="text">@messages("administration")</span></md-button>
+							</li>
+						}else{  }
+					}
+				}.getOrElse("")
+				<li class="sidebar-logout">
+					<md-button target="_self" href="@zyberapp.routes.LoginController.logout()"><i class="mdi mdi-logout"></i>  <span class="text">@messages("logout")</span></md-button>
+				</li>		
+			</ul>
+		}.getOrElse{
+			<p class="navbar-text navbar-right"><a href="@zyberapp.routes.LoginController.login()" target="_self">@messages("login")</a></p>
+            }
+		</div>
+    </div>
+</aside>

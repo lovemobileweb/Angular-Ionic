@@ -1,0 +1,9 @@
+@import controllers.admin._
+@(title: String, scripts: Html = Html(""))(content: Html)(implicit rs: Option[UserRequest[_]], messages: Messages)
+
+@libs = {
+	<script src="@Linker.bower("jquery/jquery.js")" type="text/javascript"></script>
+    <script src="@Linker.bower("underscore/underscore.js")" type="text/javascript"></script>
+    <script src="@Linker.bower("bootstrap/bootstrap.js")" type="text/javascript"></script>
+}
+@views.html.admin.base(title, HtmlFormat.fill(List(scripts, libs)))(content)(views.html.admin.common.header(), views.html.common.footer())

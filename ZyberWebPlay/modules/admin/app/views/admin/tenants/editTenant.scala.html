@@ -1,0 +1,29 @@
+@* createTenant Template File *@
+@import controllers.admin._
+@import controllers.admin.routes
+@import zyber.server.dao.admin.Tenant
+
+@(tf: Form[Tenant], id: String)(implicit rs: Option[UserRequest[_]], messages: Messages)
+
+@import helper._
+
+@views.html.admin.main(messages("create_tenant")){
+	<div class="container">
+		
+		@form(routes.TenantsController.updateDeleteTenant(id)) {
+			<center>
+				<h2>@messages("edit_tenant")</h2>
+				<div align="left"  style="width:400px" >
+					@views.html.admin.partials.tenantFields(tf)
+					<div class="actions">
+				      <button type="submit" name="action" value='update'  class="btn primary" id="update-btn">@messages("account.update")</button>
+				      <button type="submit" name="action" value='delete'  class="btn btn-danger" id="delete-btn">@messages("account.delete")</button>
+				      <a role="button" class="btn btn-warning" href="@routes.TenantsController.tenants()">@messages("cancel")</a>
+				    </div>
+				</div>
+			</center>
+		}
+	</div>
+}
+
+

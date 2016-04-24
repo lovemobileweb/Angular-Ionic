@@ -1,0 +1,170 @@
+/* Extras */
+
+/* Shadow */
+
+.shadow {
+	-webkit-box-shadow: 1px 1px 7px 0px rgba(145,145,145,0.5);
+	-moz-box-shadow: 1px 1px 7px 0px rgba(145,145,145,0.5);
+	box-shadow: 1px 1px 7px 0px rgba(145,145,145,0.5);
+}
+.panel-header {
+	padding: 15px;
+	font-size: 16px;
+	background: $primary;
+	color: #fff;
+	font-weight: 100;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	position: relative;
+	border-top-right-radius: 2px;
+	border-top-left-radius: 2px;
+	.cog {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+	}
+}
+
+.panel-body {
+	position: relative;
+	padding:15px;
+}
+
+.mdl-cell {
+	border-radius: 2px !important;
+}
+
+* {
+	a {
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}
+
+
+/* Arrows */
+
+.arrow-up {
+	display: inline-block;
+	width: 0; 
+	height: 0; 
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;	
+	border-bottom: 10px solid #00D554;
+}
+
+.arrow-down {
+	display: inline-block;
+	width: 0; 
+	height: 0; 
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;	
+	border-top: 10px solid #FF2800;
+}
+
+/* Relative and absolutr divs */
+
+.relative {
+	position: relative;
+}
+
+.absolute {
+	position: absolute;
+}
+
+/* float left and right */
+
+.left {
+	float: left;
+}
+.right {
+	float: right;
+}
+
+
+h5 {
+	font-weight: 400;
+}
+
+.mdl-checkbox {
+	height:auto;
+	min-height: 24px;
+}
+
+.zero-padding {
+	padding: 0;
+}
+
+.mt-15 {
+	margin-top: 15px;
+}
+
+md-toast {
+	&.md-top {
+		position: fixed;
+		top: 78px;
+	}
+}
+
+
+/* Hidden in mobiles */ 
+ 
+@media screen and (max-width: 600px) {
+   .hidden-sm {
+   		display: none !important;
+   }
+}
+
+/* Text color */
+
+.text-primary {
+	color: $primary !important;
+}
+
+#blue {
+	.mdi {
+		color: #2979ff;
+	}
+}
+#green {
+	.mdi {
+		color: #4CAF50;
+	}
+}
+#red {
+	.mdi {
+		color: #C54033;
+	}
+}
+#grey {
+	.mdi {
+		color: #607D8B;
+	}
+}
+#purple {
+	.mdi {
+		color: #370252;
+	}
+}
+#cyan {
+	.mdi {
+		color: #009788;
+	}
+}
+md-input-container.md-icon-float > label {
+	margin-left: 0;
+}
+/* Print */
+
+@media print {
+	.navbar {
+		display: none;
+	}
+	.sidebar {
+		display: none !important;
+	}
+	.content-holder {
+		margin-left: 0 !important;
+	}
+}

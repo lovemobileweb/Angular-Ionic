@@ -1,0 +1,32 @@
+<form novalidate name="createFolder">
+	<md-toolbar>
+	<div class="md-toolbar-tools">
+		<i class="mdi mdi-upload"></i>&nbsp;&nbsp;
+		<h2>{{"upload_files"|translate}}</h2>
+		<span flex></span> <a href="javascript:;" style="float: right"
+			ng-click="cancel()"><i class="mdi mdi-close"></i></a>
+	</div>
+	</md-toolbar>
+	<div class="breadcrumb-wrap">
+		<ul class="breadcrumb">
+			<li ng-repeat="crumb in partials"><a
+				ng-href="/{{currentView()}}/{{crumb.uuid}}">{{crumb.name}}</a></li>
+		</ul>
+	</div>
+	<div class="panel-body">
+		<div flow-init flow-object="flowObject"
+			flow-upload-started="uploadStarted()">
+			<div class="file-input-container">
+				<div class="input-drag">
+					<div class="drag-text" flow-drop>
+						<input type="file" flow-btn /> {{'click_drag_drop'|translate}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<md-divider inset></md-divider>
+	<md-dialog-actions layout="row"> <span flex></span>
+	<md-button ng-click="answer('success')">{{"done"|translate}}</md-button> </md-dialog-actions>
+</form>

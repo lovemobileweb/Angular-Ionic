@@ -1,0 +1,90 @@
+<!-- <div class="page-header">
+
+  <a class="action-link" ng-click="editGroup(group.name)">{{"change" | translate}}</a>
+  
+</div> -->
+
+<!-- <a ui-sref="admin.groups.list">{{"back_to_groups" | translate}}</a> -->
+<!-- <div class="container">
+	<div align="right">
+		<a class="action-link" ng-really-message="{{'remove_group_msg' | translate}}"
+							   ng-really-click="deleteGroup()">{{"remove_group"|translate}}</a>
+		<a class="action-link" ng-click="showAddMembers()">{{"add_member"|translate}}</a>
+	</div>
+	<table class="table table-striped">
+		<tr>
+			<th>{{"name"|translate}}</th>
+			<th>{{"type"|translate}}</th>
+			<th>{{"joined"|translate}}</th>
+			<th>---</th>
+		</tr>
+		<tr ng-repeat="member in members">
+			<td>
+				{{member.name}}
+<!-- 				<small ng-if="member.memberId === group.owner.uuid">[{{"owner" | translate}}]</small>
+			</td>
+			<td>{{member.memberType}}</td>
+			<td>{{member.joinedDate}}</td>
+			<td><a class="action-link" ng-really-message="{{'remove_member_msg' | translate:'{user: member.name}'}}"
+							   ng-really-click="removeMember(member)">{{"remove"|translate}}</a></td>
+		</tr>
+	</table>
+</div> -->
+<div class="admin-page-content">
+	<!-- <a ui-sref="admin.groups.list">{{"back_to_groups" | translate}}</a> -->
+	<md-card class="mr-0 ml-0 relative">
+		<div align="right" class="card-button">
+			<md-button class="primary mr-0 mt-0" ng-click="editGroup(group.name)" >{{"change" | translate}}</md-button>
+			<md-button class="primary mr-0 mt-0" ng-really-message="{{'remove_group_msg' | translate}}" ng-really-click="deleteGroup()" >{{"remove_group"|translate}}</md-button>
+			<md-button class="primary mr-0 mt-0" ng-click="showAddMembers()">{{"add_members"|translate}}</md-button>
+		</div>
+		<md-card-title>
+		    <md-card-title-text>
+		        <span class="md-headline">
+			        <a ui-sref="admin.groups.list" style="position: relative;top: 5px;text-decoration: none;">
+				        <i class="mdi mdi-chevron-left" style="font-size: 30px"></i>
+				        <md-tooltip md-direction="top">
+    						    {{"back_to_group" | translate}}
+				        </md-tooltip>
+			        </a>
+			        <span>{{group.name}}</span>
+			        <small style="font-size: 14px">{{"created" | translate}}: {{group.createdDate}}</small>
+		        </span>
+		    </md-card-title-text>
+		</md-card-title>
+	    <md-table-container>
+	      <table md-table class="user-list-table responsive-table">
+	        <thead md-head >
+	          	<tr md-row>
+	          		<th md-column>{{"name"|translate}}</th>
+	          		<th md-column>{{"type"|translate}}</th>
+	          		<th md-column>{{"joined"|translate}}</th>
+	          		<th md-column md-numeric>{{"action"|translate}}</th>
+	            </tr>
+	        </thead>
+	        <tbody md-body>
+	            <tr md-row ng-repeat="member in members">
+    				<td md-cell data-th="{{'name'|translate}}">
+    					{{member.name}}
+    				</td>
+    				<td md-cell data-th="{{'type'|translate}}">{{member.memberType}}</td>
+    				<td md-cell data-th="{{'joined'|translate}}">{{member.joinedDate}}</td>
+    				<td md-cell data-th="{{'action'|translate}}" class="action-btn">
+    					<a class="md-button md-raised" href="javascript:;" ng-really-message="{{'remove_member_msg' | translate:'{user: member.name}'}}"   ng-really-click="removeMember(member)"><i class="mdi mdi-close"></i>
+    						<md-tooltip md-direction="top">
+    						        {{"remove_member" | translate}}
+    						</md-tooltip>
+    					</a>
+					</td>
+	            </tr>
+	        </tbody>
+	      </table>
+	    </md-table-container>
+	</md-card>
+</div>
+<script type="text/ng-template" id="addMembers.html">
+	<ng-include src="'assets/partials/admin/addMembers.html'"></ng-include>
+</script>
+<script type="text/ng-template" id="createGroup.html">
+	<ng-include src="'assets/partials/admin/createGroup.html'"></ng-include>
+</script>

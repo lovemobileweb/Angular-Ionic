@@ -1,0 +1,7 @@
+@import controllers.admin._
+@import controllers.admin.routes
+@(message: String)(implicit us: UserRequest[_], messages: Messages)
+
+@views.html.admin.main(messages("main_page")) {
+	<h1>Hello admin</h1>
+}(Some(us), messages)

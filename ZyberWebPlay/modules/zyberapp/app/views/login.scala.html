@@ -1,0 +1,44 @@
+@* login Template File *@
+@(loginInfo: Form[(String, String, Boolean)],twoFactor:Boolean)(implicit messages: Messages)
+
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(views.html.shared.helper.bootstrapInput.f) }
+
+
+@plain("Login page"){
+	@form(zyberapp.routes.LoginController.authenticate()){
+		<div class="login-overlay">
+            <div class="logo">
+                <img src="@routes.Assets.versioned("images/Zyber-logo.png")" width="200"/>
+                <div class="header">
+                    Login
+                </div>
+            </div>
+			<div class="form-container shadow">
+				<div class="inputs">
+					@helper.inputText(loginInfo("username"), args = '_label -> messages("username"), 'class -> "form-control")
+					@helper.inputPassword(loginInfo("password"), args = '_label -> messages("password"), 'class -> "form-control")
+					@if(twoFactor) {
+						<input type="hidden" name="rememberme" value="false">
+					} else {
+						@helper.checkbox(loginInfo("rememberme"), args = '_label -> messages("remember_me"))
+					}
+			
+					@if(loginInfo.hasGlobalErrors) {
+					  <div class="help-block">
+						  <ul>
+						  @for(error <- loginInfo.globalErrors) {
+						    <li>@error.message</li>
+						  }
+						  </ul>
+					  </div>
+					}
+					<div class="actions">
+				      <input type="submit" value='@messages("login")' class="md-button primary">
+				      <a href='@zyberapp.routes.LoginController.newAccount()'>@messages("account.create")</a>
+				    </div>
+				</div>
+			</div>
+		</div>
+	}
+}

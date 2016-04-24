@@ -1,0 +1,100 @@
+<main>
+<div class="page-content remodal-bg animsition">
+	<div id="top-header">
+
+		<section class="btn-wrapper" layout="row" layout-align="end"
+			layout-wrap style="padding: 15px 23px 0 23px;">
+	    	<form ng-submit="$event.preventDefault()" style="width: 100%;position: relative;">
+	    		<i class="mdi mdi-magnify md-search-icon"></i>
+	    		<md-autocomplete
+					ng-keyup="$event.keyCode == 13 && gotoSearch($parent.searchText)"
+					md-selected-item="$parent.selectedItem"
+					md-search-text="$parent.searchText"
+					md-items="item in searchFiles(searchText)"
+					md-item-text="item.name" md-min-length="0"
+					placeholder="{{'search_file' | translate}}"
+					id="searchText2" class="search-autocomplete" > 
+					<md-item-template>
+						<a ng-href="javascript:;" ng-class="{deleted : item.isDeleted}" ng-click="showFile(item, $event)">
+							<!-- <span class="img-container"><img ng-src="{{item.image}}" src="assets/images/sample-file-icon.jpg"></span> -->
+							<span class="search-content">
+								<span>{{item.directoryPath}}</span>
+								<span>/</span>
+								<span md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}}</span>
+							</span>
+						</a>
+					</md-item-template>
+					<md-not-found> 
+							{{"no_results_match"|translate}} "{{searchText}}"
+							{{"were_found"|translate}}
+					</md-not-found>
+				</md-autocomplete>
+			</form>
+		</section>
+	</div>
+	<div class="main-container" style="padding-top: 0;">
+
+		<div layout="row">
+			<md-card layout="column" flex> 
+				<md-toolbar class="md-table-toolbar alternate">
+		          	<div class="md-toolbar-tools">
+			           <span>{{"search_results_for"|translate}} {{search}}</span>
+		          	</div>
+		        </md-toolbar>
+				<md-table-container id="table-container">
+					<table md-table	class="responsive-table search-result-table">
+						<thead md-head>
+							<tr md-row md-auto-select>
+								<th md-column>
+									<span> {{"name" | translate}} </span>
+								</th>
+								<th md-column>
+									<span> {{"modified" | translate}} </span>
+								</th>
+							</tr>
+						</thead>
+						<tbody md-body>
+							<tr md-row ng-repeat="file in searchResult"
+								ng-click="onSelect(file)"
+								ng-class="{active : file === selectedFile}">
+								<td md-cell data-th="{{'name' | translate}}">
+									<div layout="row" layout-align="center center">
+
+										<i class="mdi mdi-folder-outline file-type-icon" ng-if="file.isDirectory"> </i> 
+										<i class="mdi mdi-file-outline file-type-icon"
+										ng-if="!file.isDirectory"> </i> 
+										<!-- <img style="width:16px; display:inline-block;" ng-if="editing && dfile === selectedFile || file.isDirectory"
+												src='assets/images/icons/folder.png'  />  -->
+
+										<div flex>
+											<a href="javascript:;"	class="action-link"	ng-click="!file.isDirectory && showFile(file, $event)">{{file.name}} </a><br> 
+											<span>{{"in"|translate}}<a ng-href="{{view + '/' + file.parentUuid}}"> {{file.directoryPath}}
+											</a></span>
+										</div>
+									</div>
+								</td>
+								<td md-cell data-th="{{'modified' | translate}}"
+									data-target="menu-1">{{file.isDirectory ? "---" :
+									file.modifiedPretty}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</md-table-container> 
+			</md-card>
+		</div>
+	</div>
+</div>
+<div class="dropdown position-fixed context" id="menu-1"
+	ng-show="showContext">
+	<ul class="dropdown-menu" role="menu">
+		<li ng-if="selectedFile || selected.length"><a href="#"
+			ng-click="restoreSelectedFile()" ng-if="topLevel"
+			style="min-width: 40px;" aria-label="Restore"><i
+				class="mdi mdi-backup-restore"></i>{{"restore" | translate}} </a></li>
+	</ul>
+</div>
+</main>
+
+<script type="text/ng-template" id="showFile.html">
+		<ng-include src="'assets/partials/showFile.html'"></ng-include>
+</script>

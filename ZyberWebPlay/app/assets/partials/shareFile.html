@@ -1,0 +1,94 @@
+<!-- <div class="modal-header">
+	<h3 class="modal-title">{{"share_file"|translate}}</h3>
+</div>
+<div class="modal-body">
+	<form role="form" novalidate name="">
+		<div class="form-group" ng-show="shareForm.shareType != 'revoke'">
+			<label for="link">{{"link"|translate}}</label>
+			<input readonly="readonly" id="link" name="link" type="text" value="{{fileLink()}}" size="80">
+		</div>
+		<div class="form-group">
+			<label>{{"access"|translate}}</label>
+			<label class="radio-inline" ng-show="file.shares"><input type="radio" ng-model="shareForm.shareType" value="revoke" name="access">{{"revoke"|translate}}</label>
+			<label class="radio-inline"><input type="radio" ng-model="shareForm.shareType" value="public" name="access">{{"public"|translate}}</label>
+			<label class="radio-inline"><input type="radio" ng-model="shareForm.shareType" value="password" name="access">{{"password_protected"|translate}}</label> -->
+<!-- 			TODO hiding share files to specific users only here. Think about deleting this option -->
+<!-- 			<label class="radio-inline"><input type="radio" ng-model="shareForm.shareType" value="users" name="access">{{"specific_users"| translate}}</label> -->
+<!-- 		</div>
+		<div class="form-group" ng-show="shareForm.shareType == 'password'">
+			<label for="password">{{passwordText()}} :</label>
+			<input id="password" name="password" type="password" ng-model="shareForm.password" size="30">
+		</div>
+		<div class="form-group" ng-show="shareForm.shareType == 'users'">
+			<label for="usersF">{{"user_emails"|translate}}</label>
+			<textarea id="usersF" name="users" class="form-control" ng-model="shareForm.users" rows="2"></textarea>
+		</div>
+		<div ng-show="info" class="info-container">
+			<div class="alert alert-info">
+				{{info}}
+			</div>
+		</div>
+		<div ng-show="error" class="error-container">
+			<div class="alert alert-danger">
+				{{error}}
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" ng-click="cancel()">{{"cancel"|translate}}</button>
+	<button type="button" class="btn btn-primary" ng-click="share()"
+			ng-disabled="!validate()">{{shareText()}}</button>
+</div> -->
+
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <i class="mdi mdi-account-multiple-plus"></i>&nbsp;&nbsp;<h2>{{"share_file"|translate}}</h2>
+    <span flex></span>
+    <a href="javascript:;" style="float:right" ng-click="cancel()"><i class="mdi mdi-close" ></i></a>
+  </div>
+</md-toolbar>
+<div class="panel-body">
+  		<form role="form" novalidate name="">
+  			<md-input-container class="md-block" ng-show="shareForm.shareType != 'revoke'" flex-gt-sm style="margin-bottom:0">
+	            <label for="link">{{"link"|translate}}</label>
+	            <input readonly="readonly" id="link" name="link" type="text" value="{{fileLink()}}" size="80">
+	         </md-input-container>
+	         <md-radio-group ng-model="shareForm.shareType" class="modal-radios" layout="row" layout-xs="column" layout-sm="column">
+  					<label class="access-label-text">{{"access"|translate}}</label>
+	               <md-radio-button ng-show="file.shares" value="revoke" name="access">{{"revoke"|translate}}</md-radio-button>
+	               <md-radio-button value="public" name="access"> {{"public"|translate}} </md-radio-button>
+	               <md-radio-button value="password" name="access">{{"password_protected"|translate}}</md-radio-button>
+	        </md-radio-group>
+  			<md-input-container class="md-block" ng-if="shareForm.shareType == 'password'" flex-gt-sm style="margin-bottom:0">
+	            <label for="password">{{passwordText()}}</label>
+	            <input id="password" name="password" type="password" ng-model="shareForm.password" size="30">
+	         </md-input-container>
+  			<md-input-container class="md-block" ng-if="shareForm.shareType == 'users'" flex-gt-sm style="margin:0">
+	            <label for="usersF">{{"user_emails"|translate}}</label>
+	            <textarea id="usersF" name="users" ng-model="shareForm.users" rows="3"></textarea>
+	         </md-input-container>
+
+  			<!-- <div class="form-group" ng-show="shareForm.shareType == 'users'">
+  				<label for="usersF">{{"user_emails"|translate}}</label>
+  				<textarea id="usersF" name="users" class="form-control" ng-model="shareForm.users" rows="2"></textarea>
+  			</div> -->
+  			<div ng-show="info" class="info-container">
+  				<div class="alert alert-info">
+  					{{info}}
+  				</div>
+  			</div>
+  			<div ng-show="error" class="error-container">
+  				<div class="alert alert-danger">
+  					{{error}}
+  				</div>
+  			</div>
+  		</form>
+</div>
+  <md-divider inset></md-divider>
+  <md-dialog-actions layout="row">
+    	<span flex></span>
+    	<md-button class="btn btn-warning" ng-click="cancel()">{{"cancel"|translate}}</md-button>
+    	<md-button type="button" class="btn btn-primary" ng-click="share()"
+    			ng-disabled="!validate()">{{shareText()}}</md-button>
+  </md-dialog-actions>

@@ -1,0 +1,6 @@
+@import util.UserRequest
+@(message: String)(implicit rs: UserRequest[_], messages: Messages)
+
+@main("Index page") {
+    Index page
+}(Some(rs), messages)

@@ -1,0 +1,18 @@
+@(elements: helper.FieldElements)
+
+@**************************************************
+* Generate input according twitter bootsrap rules *
+**************************************************@
+
+<div class="form-group@if(elements.hasErrors){ has-error}">
+    <label for="@elements.label" >@elements.label.toString.capitalize</label>
+    <div >
+        @elements.input
+        @if(elements.args.get('help)){
+            <p class="help-block">@elements.args.get('help)</p>
+        }
+        @if(elements.hasErrors){
+            <div class="help-block"><span class="glyphicon glyphicon-exclamation-sign"></span> @elements.errors.mkString(", ")</div>
+        }
+    </div>
+</div>

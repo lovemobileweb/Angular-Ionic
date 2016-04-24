@@ -1,0 +1,104 @@
+<md-toolbar>
+<div class="md-toolbar-tools">
+	<h2>{{"share_folder"|translate}}: {{file.name}}</h2>
+	<span flex></span> <a href="javascript:;" style="float: right"
+		ng-click="cancel()"><i class="mdi mdi-close"></i></a>
+</div>
+</md-toolbar>
+<div class="panel-body">
+	<div id="shareFolderWindow">
+		<form role="form" novalidate name="shareForm">
+			<md-switch value="share" name="share" required ng-change="toggleShare(shareModel.folderName)" ng-model="shareModel.shared" class="mb-0">
+			    {{"move_to_shares"|translate}}
+			</md-switch>
+			<br>
+			<md-checkbox  ng-if="folderShared" value="recursively" name="recursively"
+				ng-model="shareModel.recursively" class="mb-0 mt-0">
+			    {{"set_recursively"|translate}}
+			</md-checkbox >
+
+			<div ng-if="!folderShared">
+				<md-input-container class="md-block" flex-gt-sm
+					style="margin-bottom:0;"> <input type="text"
+					class="form-control" ng-model="shareModel.folderName"
+					id="folderName" name="folderName" ng-pattern='/^[^\/:?*"|]+$/'
+					placeholder='{{"share_name" | translate}}' required> </md-input-container>
+				<div ng-show="info" class="info-container">
+					<div class="alert alert-info">{{info}}</div>
+				</div>
+				<div ng-show="error" class="error-container">
+					<div class="alert alert-danger">{{error}}</div>
+				</div>
+			</div>
+		</form>
+		<div ng-if="folderShared" class="folder-sharing">
+			<div>
+				<div>
+					<br>
+					<!-- <md-input-container style="width:100%;margin-bottom:0">
+				<label>{{"add_principal" | translate}}</label> <input type="text"
+					ng-model="newPrincipal.value"
+					uib-typeahead="name for name in getPrincipals($viewValue)"
+					typeahead-loading="loadingPrincipals"
+					typeahead-no-results="noResults" class="form-control"
+					ng-keyup="$event.keyCode == 13 && addPrincipal(newPrincipal.value)">
+				</md-input-container> -->
+					<md-autocomplete
+						ng-keyup="$event.keyCode == 13 && addPrincipal(newPrincipal.value)"
+						md-selected-item="$parent.selectedItem"
+						md-search-text-change="searchTextChange(searchText)"
+						md-search-text="$parent.searchText"
+						md-selected-item-change="selectedItemChange(item)"
+						md-items="item in querySearch(searchText)"
+						md-item-text="item.email" md-min-length="0"
+						placeholder="Enter user email or group.."> <md-item-template>
+					<span md-highlight-text="searchText" md-highlight-flags="^i">{{item.email}}</span>
+					</md-item-template> <md-not-found> {{"no_email_match"|translate}} "{{searchText}}"
+					{{"were_found"|translate}} </md-not-found> </md-autocomplete>
+					<button type="button" class="md-button md-raised add-btn"
+						ng-click="addPrincipal(newPrincipal.value)">
+						<i class="mdi mdi-plus"></i>
+					</button>
+				</div>
+			</div>
+			<div class="pre-scrollable">
+				<md-card layout="column" flex>
+				<table md-table md-progress="promise" class="responsive-table folder-sharing-table">
+					<thead md-head>
+						<tr md-row>
+							<th md-column>{{"user_or_groups"|translate}}</th>
+							<th md-column>{{"permissions"|translate}}</th>
+							<th md-column>{{"action"|translate}}</th>
+						</tr>
+					</thead>
+					<tbody md-body>
+						<tr md-row ng-repeat="princ in principals"
+							ng-class="{active : princ === selectedPrincipal}">
+							<td md-cell data-th="{{'user_or_groups'|translate}}"><a class="action-link">{{princ.name}}</a></td>
+							<td md-cell data-th="Permissions"><md-input-container> <!-- 						        <label>Permissions {{permissionsFor.selected}}</label> -->
+								<md-select ng-model="princ.permissions.name"> <md-option
+									ng-repeat="permission in permissionSets" name="name"
+									value="{{permission.name}}" ng-click="setSelected(princ, permission.name)"> {{permission.label}} </md-option>
+								</md-select> </md-input-container></td>
+							<td md-cell data-th="Action"><a class="action-link"
+								title='{{"remove"|translate}}'
+								ng-really-message="{{'remove_principal_msg' | translate:'{key: key}'}}"
+								ng-really-click="removePrincipal(princ)"> <span
+									class="mdi mdi-close" style="font-size: 18px;"></span>
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+				</md-card>
+			</div>
+		</div>
+	</div>
+</div>
+<md-divider inset></md-divider>
+<md-dialog-actions layout="row"> <span flex></span>
+<span flex></span> <md-button ng-if="folderShared" class="btn btn-warning" ng-click="done(selectedPrincipal, permissionsFor)">{{"done"|translate}}</md-button>
+</md-dialog-actions>
+
+<script type="text/ng-template" id="selectFolder.html">
+		<ng-include src="'assets/partials/selectFolder.html'"></ng-include>
+</script>

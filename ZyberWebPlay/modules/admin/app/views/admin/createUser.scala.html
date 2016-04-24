@@ -1,0 +1,25 @@
+@* createUser Template File *@
+@import controllers.admin._
+@import controllers.admin.routes
+@import zyber.server.dao.admin.TenantAdmin
+@(uf: Form[TenantAdmin])(implicit rs: Option[UserRequest[_]], messages: Messages)
+
+@import helper._
+
+@views.html.admin.main(messages("create_user"), views.html.shared.helper.accountHelper()){
+	<div class="container">
+	
+		@form(routes.LoginController.addUser()) {
+			<center>
+				<h2>@messages("create_user")</h2>
+				<div align="left"  style="width:400px" >
+					@views.html.admin.partials.userFields(uf)
+					<div class="actions">
+				      <input type="submit" value='@messages("account.create")' class="btn primary" id="create-btn">
+				      <a role="button" class="btn btn-danger" href="@routes.LoginController.viewUsers()">@messages("cancel")</a>
+				    </div>
+				</div>
+			</center>
+		}
+	</div>
+}

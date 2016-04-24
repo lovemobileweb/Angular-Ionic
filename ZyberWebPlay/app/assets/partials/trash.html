@@ -1,0 +1,95 @@
+<main>
+	<div class="trash page-content remodal-bg animsition">
+		<div id="top-header">
+			<md-subheader class="md-primary m-n">
+				<ul class="breadcrumb">
+					<li ng-repeat="crumb in partials">
+						<a ng-href="/{{crumb.path}}">{{crumb.name | renameTrashToArchive}}</a>
+					</li>
+				</ul>
+			</md-subheader>
+			<section  class="btn-wrapper" layout="row" layout-align="end" layout-wrap style="padding: 15px 15px 0 20px;">
+				<span class="action-btn-group">
+					<span ng-show="selected.length" class="selected-file-no">
+						<strong>{{selected.length}}</strong> {{selected.length > 1 ? 'items' :
+							'item'}} {{'selected'|translate}}
+					</span>
+				</span> 
+				<span ng-if="selectedFile || (selected.length > 0)"
+					class="select-btn-group"> 
+			   		<a class="md-button md-raised" href="#" ng-click="restoreSelectedFile()" ng-if="topLevel" style="min-width: 40px;background-color: #004177;" aria-label="Restore"><i class="mdi mdi-backup-restore" style="color:#ffffff"></i>
+			   			<md-tooltip md-direction="top">
+			   		        {{"restore" | translate}} 
+			   		    </md-tooltip>
+			   		</a>
+			   </span>
+			</section>
+		</div>
+		<div class="main-container" style="padding-top: 0;" >
+			 <div layout="row">
+				<!-- <th md-column md-order-by="name" ng-if="selectedFile">
+					<a href="#" ng-click="restoreFile(selectedFile)" ng-if="topLevel"> <span
+							class="header-icon glyphicon glyphicon-transfer"></span> {{"restore" | translate}}
+				</th> -->
+			   
+				<md-card layout="column" flex>
+			        <md-table-container id="table-container">
+			          <table md-table md-row-select="true" ng-model="selected" md-progress="promise" class="responsive-table trash-table">
+			            <thead md-head>
+			              	<tr md-row md-auto-select>
+				              	<th md-column md-order-by="name" ng-click='setSorting("name")'>
+				              		<span ng-switch="getSorting()"> <span ng-switch-when="name">
+				              			{{"name" | translate}} 
+				              			<!-- <img width="5"	ng-attr-src="{{asc() ? 'assets/images/icons/asc.png' : 'assets/images/icons/desc.png'}}"> -->
+				              		</span> <span ng-switch-default>{{"name" | translate}}</span>
+				              		</span>
+				              	</th>
+				              	<th md-column md-order-by="size" ng-click='setSorting("size")'>
+				              		<span ng-switch="getSorting()"> <span ng-switch-when="size">
+				              			<!-- {{"size" | translate}} 
+				              			<img width="5" ng-attr-src="{{asc() ? 'assets/images/icons/asc.png' : 'assets/images/icons/desc.png'}}"> -->
+				              		</span> <span ng-switch-default>{{"size"|translate}}</span>
+				              		</span>
+				              	</th>
+				              	<th md-column md-order-by="modified" ng-click='setSorting("modified")'>
+				              		<span ng-switch="getSorting()"> <span ng-switch-when="modified">
+				              			{{"modified" | translate}} 
+				              			<!-- <img width="5" ng-attr-src="{{asc() ? 'assets/images/icons/asc.png' : 'assets/images/icons/desc.png'}}"> -->
+				              		</span> <span ng-switch-default>{{"modified" | translate}}</span>
+				              		</span>
+				              	</th>
+							</tr>
+			            </thead>
+			            <tbody md-body>
+			            	<tr md-row md-select="file" ng-repeat="file in files" ng-click="onSelect(file)"
+							ng-class="{active : file === selectedFile}">
+								<td md-cell data-th="{{'name' | translate}}" context-menu="onShow(file)" context-menu-close="onClose()" data-target="menu-1">
+									<i class="mdi mdi-folder-outline file-type-icon"
+										ng-if="file.isDirectory">
+									</i> 
+									<i class="mdi mdi-file-outline file-type-icon"
+										ng-if="!file.isDirectory">
+									</i>
+									<a ng-attr-href="{{file.isDirectory ? pathTo(file.uuid) : undefined}}"
+									class="action-link" ng-click="!file.isDirectory && showFile(file)"
+									> {{file.name}} </a>
+								</td>
+								<td md-cell data-th="{{'size'|translate}}" context-menu="onShow(file)" context-menu-close="onClose()" data-target="menu-1">{{file.isDirectory ? "---" : file.size | bytes}}</td>
+								<td md-cell data-th="{{'modified' | translate}}" context-menu="onShow(file)" context-menu-close="onClose()" data-target="menu-1">{{file.isDirectory ? "---" : file.modifiedPretty}}</td>
+							</tr>
+			            </tbody>
+			          </table>
+			        </md-table-container>
+				</md-card>
+			</div>
+		</div>
+	</div>
+	<div class="dropdown position-fixed context" id="menu-1" ng-show="showContext">
+	  <ul class="dropdown-menu" role="menu">
+	    <li ng-if="selectedFile || selected.length">
+    		<a  href="#" ng-click="restoreSelectedFile()" ng-if="topLevel" style="min-width: 40px;" aria-label="Restore"><i class="mdi mdi-backup-restore"></i>{{"restore" | translate}} 
+    		</a>
+	    </li>
+	  </ul>
+	</div>
+</main>

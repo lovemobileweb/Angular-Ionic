@@ -1,0 +1,156 @@
+@* header Template File *@
+@()(implicit rs: Option[util.UserRequest[_]] = None, messages: Messages)
+
+<header id="header" class="navbar shadow on-small-screen" ng-controller="headerctrl" style="top:0">
+	<script type="text/ng-template" id="searchTemplate.html">
+		<a ng-href="/home/{{match.model.parentUuid}}#{{match.model.uuid}}" ng-class="{deleted : match.model.isDeleted}">
+			<span class="img-container"><img ng-src="{{match.model.image}}" src="assets/images/sample-file-icon.jpg"></span>
+			<span class="search-content">
+				<span>{{match.model.directoryPath}}</span>
+				<span>/</span>
+				<span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+			</span>
+		</a>
+	</script>
+	<div class="topnav-wrapper">
+		<span class="backburger-btn l-r"><a href="" ng-click="extend()"><i class="mdi mdi-backburger"></i></a></span>
+		<div class="topnav-logo">
+			<img src="assets/images/zyber-logo.png" alt="" style="width: 100px;">
+		</div>
+		<span class="search-btn"><a href="javascript:;" ng-click="addSearch()"><i class="mdi mdi-magnify"></i></a></span>
+		<span class="search-box-full-width">
+						    	
+		</span>
+	</div>
+	<nav class="right" style="margin-right: 0;display: table;">
+		<span style="display: table-cell;" ng-if="(location.path().indexOf('home') == 1) || (location.path().indexOf('shares') == 1)">
+	    	<form ng-submit="$event.preventDefault()" style="width: 100%;position: relative;">
+	    		<i class="mdi mdi-magnify md-search-icon"></i>
+	    		<md-autocomplete
+	    			md-no-cache="true"
+					ng-keyup="$event.keyCode == 13 && gotoSearch($parent.searchText)"
+					md-selected-item="$parent.selectedItem"
+					md-search-text="$parent.searchText"
+					md-items="item in searchFiles($parent.searchText)"
+					md-item-text="item.name" md-min-length="0"
+					placeholder="{{'search_file' | translate}}"
+					id="searchText" class="search-autocomplete" > 
+					<md-item-template>
+						<a ng-href="javascript:;" ng-class="{deleted : item.isDeleted}" ng-click="showFile(item, $event)">
+							<!-- <span class="img-container"><img ng-src="{{item.image}}" src="assets/images/sample-file-icon.jpg"></span> -->
+							<span class="search-content">
+								<span>{{item.directoryPath}}</span>
+								<span>/</span>
+								<span md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}}</span>
+							</span>
+						</a>
+					</md-item-template>
+					<md-not-found> 
+							{{"no_results_match"|translate}} "{{searchText}}"
+							{{"were_found"|translate}}
+					</md-not-found>
+				</md-autocomplete>
+			</form>
+		</span>
+	<!--
+		<span class="search-box">
+			 <md-input-container md-no-float>
+		    	<label>Search File</label>
+		    	<i class="mdi mdi-magnify"></i>
+		    	 <input type="text" 
+		    	ng-model="searchedFiles" typeahead="file as file.name for file in searchFiles($viewValue)" 
+		    	typeahead-template-url="searchTemplate.html" placeholder="{{'search_file' | translate}}"
+		    	ng-keyup="$event.keyCode == 13 && qwertyTest()"> 
+		    	<md-autocomplete
+						ng-keyup="qwertyTest()"
+						md-selected-item="$parent.selectedItem"
+						md-search-text="$parent.searchText"
+						md-items="item in searchFiles(searchText)"
+						md-item-text="item.name" md-min-length="0"
+						placeholder="{{'search_file' | translate}}"> 
+					<md-item-template>
+						<a ng-href="/home/{{item.parentUuid}}#{{item.uuid}}" ng-class="{deleted : item.isDeleted}" ng-click="console.log('ng-click')">
+							<span class="img-container"><img ng-src="{{item.image}}" src="assets/images/sample-file-icon.jpg"></span>
+							<span class="search-content">
+								<span>{{item.directoryPath}}</span>
+								<span>/</span>
+								<span md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}}</span>
+							</span>
+						</a>
+					</md-item-template>
+					<md-not-found> 
+						{{"no_email_match"|translate}} "{{searchText}}"
+						{{"were_found"|translate}} 
+					</md-not-found> </md-autocomplete>
+		    </md-input-container> -->
+
+		    <!-- Autocomplete demo,Need to implement the search box in it.-->
+<!-- Commenting this out until we figure what's the expected behavior for share		    
+			<md-autocomplete
+		          ng-disabled="isDisabled"
+		          md-no-cache="noCache"
+		          md-selected-item="selectedItem"
+		          md-search-text-change="searchTextChange(searchText)"
+		          md-search-text="searchText"
+		          md-selected-item-change="selectedItemChange(item)"
+		          md-items="item in querySearch(searchText)"
+		          md-item-text="item.name"
+		          md-min-length="0"
+		          placeholder="Pick an Angular repository"
+		          md-menu-class="autocomplete-custom-template"
+		          style="display: inline-block;min-width: 300px;">
+		        <md-item-template>
+		          <span class="item-title">
+		            <md-icon md-svg-icon="img/icons/octicon-repo.svg"></md-icon>
+		            <span> {{item.name}} </span>
+		          </span>
+		          <span class="item-metadata">
+		            <span class="item-metastat">
+		              <strong>{{item.watchers}}</strong> watchers
+		            </span>
+		            <span class="item-metastat">
+		              <strong>{{item.forks}}</strong> forks
+		            </span>
+		          </span>
+		        </md-item-template>
+		    </md-autocomplete>
+			 <md-input-container md-no-float>
+		    	<label>Search File</label>
+		    	<i class="mdi mdi-magnify"></i>
+		    	 <input type="text" 
+		    	ng-model="searchedFiles" typeahead="file as file.name for file in searchFiles($viewValue)" 
+		    	typeahead-template-url="searchTemplate.html" placeholder="{{'search_file' | translate}}"
+		    	ng-keyup="$event.keyCode == 13 && qwertyTest()"> 
+		    </span>
+-->
+
+		    <!-- Autocomplete demo finished-->
+	 @rs.map{ u =>
+		<md-menu md-position-mode="target-right target" >
+			<md-button aria-label="Open demo menu" class="nav-btn username-btn" ng-click="$mdOpenMenu($event)">
+				@{ if (u.user.getName() == null || u.user.getName().length == 0) u.user.getEmail() else u.user.getName()}
+				<i class="mdi mdi-chevron-down"></i>
+			</md-button>
+			<md-menu-content width="3" >					
+				<md-menu-item>							
+					<md-button target="_self" href="@zyberapp.routes.SettingsController.settings()">@messages("settings")</md-button>
+				</md-menu-item>
+				@rs.map{ur =>
+		            	@ur.abilities.map{ ab =>
+		            		@if(ab.isPowerUser){
+		            			<md-menu-item>							
+		            				<md-button target="_self" href="@zyberapp.routes.AdminController.admin()">@messages("administration")</md-button>
+		            			</md-menu-item>
+		            		}else{  }
+		            	}
+		            }.getOrElse("")
+				<md-menu-item>							
+					<md-button target="_self" href="@zyberapp.routes.LoginController.logout()">@messages("logout")</md-button>
+				</md-menu-item>
+			</md-menu-content>
+		</md-menu>
+		}.getOrElse{
+            	<p class="navbar-text navbar-right"><a href="@zyberapp.routes.LoginController.login()" target="_self">@messages("login")</a></p>
+            }
+	</nav>
+</header>

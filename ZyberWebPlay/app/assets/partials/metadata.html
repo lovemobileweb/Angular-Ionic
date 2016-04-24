@@ -1,0 +1,92 @@
+<!-- <div class="modal-header">
+	<h3 class="modal-title">{{"edit"|translate}} {{termStore.name}} {{"metadata" | translate}}</h3>
+</div>
+<div class="modal-body">
+	<h3>{{"description"|translate}}</h3>
+	<p>{{termStore.description}}</p>
+	<h4>{{"elements"|translate}}</h4>
+	<ul class="list-group">
+		<li ng-repeat="element in elements" class="list-group-item">{{element}}
+			<a class="action-link" style="float: right;" title="Remove"
+			ng-click="remove(element)"><span
+				class="header-icon glyphicon glyphicon-minus-sign"></span></a>
+		</li>
+	</ul>
+	<div ng-if="!termStore.allowCustomTerms">
+		<label for="terms">{{"select" | translate}}</label>
+		<select name="terms" id="terms" ng-model="selected.term"
+			class="form-control">
+			<option ng-repeat="term in terms" value="{{term.name}}">{{term.name}}</option>
+		</select> <a class="action-link" ng-click="addElement(selected.term)">{{"add"|translate}}</a>
+	</div>
+	<div ng-if="termStore.allowCustomTerms">
+		<input type="text" class="form-control" placeholder='{{"new_element"|translate}}'
+			ng-model="newElement.value"
+			ng-keyup="$event.keyCode == 13 && addElement(newElement.value)">
+		<a class="action-link" ng-click="addElement(newElement.value)">{{"add"|translate}}</a>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="save()">{{"save"|translate}}</button>
+	<button class="btn btn-warning" ng-click="cancel()">{{"cancel" | translate}}</button>
+</div> -->
+
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <i class="mdi mdi-account-multiple-plus"></i>&nbsp;&nbsp;<h2>{{"edit"|translate}} {{termStore.name}} {{"metadata" | translate}}</h2>
+    <span flex></span>
+    <a href="javascript:;" style="float:right" ng-click="cancel()"><i class="mdi mdi-close" ></i></a>
+  </div>
+</md-toolbar>
+<div class="meta-data-dialog">
+	<md-list ng-cloak>
+	  <md-subheader class="md-no-sticky">{{"description"|translate}}</md-subheader>
+	  <md-list-item style="min-height: 35px;">
+	    <p> {{termStore.description}} </p>
+	  </md-list-item>
+	</md-list>
+	<md-divider></md-divider>
+	<md-list ng-cloak>
+	  <md-subheader class="md-no-sticky">{{"elements"|translate}}</md-subheader>
+	  <md-list-item ng-repeat="element in elements" style="min-height: 35px;">
+	    <p> {{element}} </p>
+	    <a class="action-link" style="float: right;" title="Remove"
+	    ng-click="remove(element)"><span
+	    	class="header-icon mdi mdi-minus-circle"></span></a>
+	  </md-list-item>
+	</md-list>
+	<md-divider></md-divider>
+	<!-- <div ng-if="!termStore.allowCustomTerms">
+		<label for="terms">{{"select" | translate}}</label>
+		<select name="terms" id="terms" ng-model="selected.term"
+			class="form-control">
+			<option ng-repeat="term in terms" value="{{term.name}}">{{term.name}}</option>
+		</select> <a class="action-link" ng-click="addElement(selected.term)">{{"add"|translate}}</a>
+	</div> -->
+	<md-input-container ng-if="!termStore.allowCustomTerms"> 
+		<label>{{"select" | translate}}</label> 
+		<md-select name="terms" id="terms" ng-model="selected.term"> 
+			<md-option ng-repeat="term in terms" value="{{term.name}}"> {{term.name}}</md-option>
+		</md-select> 
+	</md-input-container>
+	<button ng-if="!termStore.allowCustomTerms" type="button" class="md-button md-raised add-btn" ng-click="addElement(selected.term)">
+		<i class="mdi mdi-plus"></i>
+	</button>
+
+	<md-input-container class="md-block mb-0" ng-if="termStore.allowCustomTerms" flex-gt-sm style="display: inline-block;margin-left: 15px;">
+	    <label for="password">Enter Element</label>
+	    <input placeholder='{{"new_element"|translate}}' type="text" class="form-control" placeholder='{{"new_element"|translate}}'
+			ng-model="newElement.value"
+			ng-keyup="$event.keyCode == 13 && addElement(newElement.value)">
+	</md-input-container>
+	<button type="button" class="md-button md-raised add-btn"
+		ng-click="addElement(newElement.value)">
+		<i class="mdi mdi-plus"></i>
+	</button>
+</div>
+<md-divider inset></md-divider>
+<md-dialog-actions layout="row">
+	<span flex></span>
+	<md-button ng-click="save()">{{"save"|translate}}</md-button>
+	<md-button ng-click="cancel()">{{"cancel" | translate}}</md-button>
+</md-dialog-actions>

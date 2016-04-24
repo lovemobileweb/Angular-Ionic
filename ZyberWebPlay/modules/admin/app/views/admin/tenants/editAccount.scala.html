@@ -1,0 +1,46 @@
+@* createAccount Template File *@
+@import controllers.admin._
+@import controllers.admin.routes
+@import zyber.server.dao.admin.Tenant
+
+@(tenant: Tenant, user: zyber.server.dao.User, accountForm: Form[(String)])(
+	implicit rs: UserRequest[_], messages: Messages)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(views.html.shared.helper.bootstrapInput.f) }
+
+@views.html.admin.main(messages("edit_user"), views.html.shared.helper.accountHelper()){
+	<div class="container">
+		<div class="page-header">
+				<h1>
+					@messages("tenant"): <small>@tenant.getTenantName</small>
+				</h1>
+		</div>
+		<ul class="nav nav-tabs">
+		  <li role="presentation"><a href="@routes.TenantsController.viewTenant(tenant.getTenantId.toString)">@messages("details")</a></li>
+		  <li role="presentation" class="active"><a href="@routes.TenantsController.tenantUsers(tenant.getTenantId.toString)">@messages("users")</a></li>
+		</ul>
+		@form(routes.TenantsController.updateDeleteUser(tenant.getTenantId.toString(), user.getUserId.toString())) {
+			<center>
+				<h3>@messages("reset_password_for"): @user.getName</h3>
+				<div align="left"  style="width:400px" >
+					@helper.inputPassword(accountForm("password"), args = '_label -> messages("password"), 'class -> "form-control")
+					<div class="form-group" id="confirm-control">
+			   			<label for="Confirm" >@messages("confirm")</label>
+			   			<div >
+			   				<input type="password" id="confirm" name="confirm" class="form-control">
+			   				<span id="confirm-block" class="help-block"></span>
+			   			</div>
+					</div>
+					<div class="actions">
+					  <button type="submit" name="action" value='update'  class="btn primary" id="create-btn">@messages("account.update")</button>
+				      <button type="submit" name="action" value='delete'  class="btn btn-danger" id="delete-btn">@messages("account.delete_user")</button>
+				      <a href="@routes.TenantsController.tenantUsers(tenant.getTenantId.toString)" class="btn btn-danger">@messages("cancel")</a>
+				    </div>
+			    </div>
+			</center>
+	}
+	</div>
+}(Some(rs), messages)
+	

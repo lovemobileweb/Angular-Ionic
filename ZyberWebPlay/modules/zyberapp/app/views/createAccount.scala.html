@@ -1,0 +1,80 @@
+@* createAccount Template File *@
+@(twoFactorEnabled:Boolean,accountForm: Form[(String,String,String, String, String)])(implicit messages: Messages)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(views.html.shared.helper.bootstrapInput.f) }
+
+@plain("Create account", views.html.shared.helper.accountHelper()){
+		@if(accountForm.hasErrors) {
+			<div class="alert alert-danger">
+				@accountForm.error("username").map(_.message).getOrElse("")
+			</div>
+		}
+		@form(zyberapp.routes.LoginController.createAccount()) {
+			<div class="login-overlay">
+                <div class="logo">
+                    <img src="@routes.Assets.versioned("images/Zyber-logo.png")" width="200"/>
+                    <div class="header">
+                        Create Account
+                    </div>
+                </div>
+				<div class="form-container shadow">
+					<div class="inputs">
+						<input type="hidden" name="countryCode" id="countryCode" value='@accountForm("countryCode").value' >
+						<input type="hidden" name="phoneNumber" id="phoneNumber" value='@accountForm("phoneNumber").value' >
+
+						@helper.inputText(accountForm("name"), args = '_label -> messages("name"), 'class -> "form-control")
+						@helper.inputText(accountForm("email"), args = '_label -> messages("email"), 'class -> "form-control")
+						@if(twoFactorEnabled) {
+							@helper.inputText(accountForm("number"), args = '_label -> messages("number"), 'class -> "form-control", 'id -> "mobile-number", 'type -> "tel")
+							@if(!twoFactorEnabled) {
+								@helper.checkbox(accountForm("twoFactor"),  args= '_label -> messages("twofactor.enabled"))
+							}
+						}
+
+						@helper.inputPassword(accountForm("password"), args = '_label -> messages("password"), 'class -> "form-control")
+						<div class="form-group" id="confirm-control">
+			    			<label for="Confirm" >@messages("confirm")</label>
+			    			<div >
+			    				<input type="password" id="confirm" name="confirm" class="form-control">
+			    				<span id="confirm-block" class="help-block"></span>
+			    			</div>
+						</div>
+						<div class="actions">
+					      <input type="submit" value='@messages("account.create")' class="btn primary" id="create-btn">
+					      <a href='@zyberapp.routes.LoginController.login()'>@messages("login")</a>
+					    </div>
+				    </div>
+				</div>
+			</div>
+			<script type="text/javascript">
+				@if(twoFactorEnabled) {
+					$(document).ready(function () {
+						console.log("Updating mobile");
+						var $mobile = $("#mobile-number");
+						$mobile.intlTelInput({
+
+						});
+						@if(accountForm("countryCode").value.getOrElse("") == "") {
+						$.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+							var countryCode = (resp && resp.country) ? resp.country : "";
+							$mobile.intlTelInput("setCountry",countryCode);
+						});
+						}
+						setInterval(function() {
+							try {
+								$("#phoneNumber").val($mobile.intlTelInput("getNumber",intlTelInputUtils.numberFormat.NATIONAL));
+								$("#countryCode").val($mobile.intlTelInput("getSelectedCountryData").dialCode);
+							} catch(e) {
+
+							}
+
+						},500);
+					}); }
+
+			</script>
+
+	}
+}
+	

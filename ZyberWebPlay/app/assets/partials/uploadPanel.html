@@ -1,0 +1,66 @@
+<div flow-init flow-object="flowObject"
+	flow-files-submitted="filesSubmitted($flow, $files)"
+    flow-file-success="fileSuccess($file, $message, $flow )"
+	flow-drag-enter="isDropping = true"
+	flow-drag-leave="isDropping = false">
+	<md-card class="upload-card"
+		ng-if="($flow.isUploading() || $flow.files.length > 0)"> <md-card-header>
+	<md-card-header-text layout="row" layout-align="center center">
+	<div class="upload-header-text" flex="75">
+		<span ng-if="$flow.completedUploads > 1">{{$flow.completedUploads}}
+			{{'uploads_completed'|translate}}</span> <span
+			ng-if="$flow.completedUploads === 1">{{$flow.completedUploads}}
+			{{'upload_completed'|translate}}</span>
+		<span ng-if="$flow.completedUploads === 0 && $flow.isUploading()">
+			{{'uploading_file'|translate}}: {{$flow.files[0].name}}
+		</span>
+	</div>
+	<div class="upload-header-buttons" flex="25">
+		<span ng-click="toggleUploadPanel()"><i ng-if="!isHidePanel()"
+			class="mdi mdi-chevron-down"></i><i ng-if="isHidePanel()"
+			class="mdi mdi-chevron-up"></i></span> <span style="padding-left: 10px;"
+			ng-click="closeUpload()"><i class="mdi mdi-close"></i></span>
+	</div>
+	</md-card-header-text> </md-card-header>
+	<!-- Allow dropping in upload panel -->
+	<div class="file-input-container" ng-if="isDropping">
+		<div class="input-drag">
+			<div class="drag-text" flow-drop>
+				<input type="file" flow-btn /> {{'drag_drop'|translate}}
+			</div>
+		</div>
+	</div>
+	<div>
+		<div ng-if="!isDropping">
+			<div ng-class="{'hide-panel': isHidePanel()}"
+				class="upload-panel-wrapper">
+				<md-card-content layout="column" layout-align="center center">
+				<div layout="row" layout-align="center center" class="upload-row"
+					ng-repeat="file in $flow.files">
+					<span flex="65" class="ellipsis">{{file.name}}</span> <span flex="35"
+						style="text-align: right;"> <span
+						ng-show="file.progress() > 0 && file.progress() < 1"> <!-- <md-progress-circular md-mode="determinate" value="{{file.progress()*100}}"></md-progress-circular> -->
+							<md-progress-linear md-mode="determinate"
+								value="{{file.progress()*100}}"></md-progress-linear>
+					</span> <a href="javascript:;" ng-click="file.pause()"
+						ng-if="file.isUploading()"><i class="mdi mdi-pause-circle"
+							style="font-size: 22px; color: #004177;"></i></a> <a
+						href="javascript:;" ng-click="file.resume()"
+						ng-if="!file.isUploading() && (file.progress() < 1)"><i
+							class="mdi mdi-play-circle"
+							style="font-size: 22px; color: #004177;"></i></a> <a
+						href="javascript:;" ng-click="file.cancel()"
+						ng-if="file.progress() < 1"><i class="mdi mdi-close-circle"
+							style="font-size: 22px; color: #de3641;"></i></a> <i
+						class="mdi mdi-checkbox-marked-circle"
+						style="font-size: 22px; color: #007f00;"
+						ng-if="file.processing=='completed'"></i> <span
+						ng-if="!(file.processing=='completed')" style="color: #007f00">{{file.processing|translate}}</span>
+					</span>
+				</div>
+				</md-card-content>
+			</div>
+		</div>
+	</div>
+	</md-card>
+</div>

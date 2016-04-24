@@ -1,0 +1,23 @@
+@* tenantForm Template File *@
+@import controllers.admin._
+@import controllers.admin.routes
+@import zyber.server.dao.admin.TenantAdmin
+
+@(uf: Form[TenantAdmin])(implicit  messages: Messages)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(views.html.shared.helper.bootstrapInput.f) }
+
+<fieldset>
+		@helper.inputText(uf("name"), args = '_label -> messages("name"), 'class -> "form-control")
+		@helper.inputText(uf("username"), args = '_label -> messages("username"), 'class -> "form-control")
+		@helper.inputPassword(uf("password"), args = '_label -> messages("password"), 'class -> "form-control")
+		<div class="form-group" id="confirm-control">
+			 <label for="Confirm" >@messages("confirm")</label>
+			 <div >
+			   <input type="password" id="confirm" name="confirm" class="form-control">
+			   <span id="confirm-block" class="help-block"></span>
+			 </div>
+		</div>
+</fieldset>

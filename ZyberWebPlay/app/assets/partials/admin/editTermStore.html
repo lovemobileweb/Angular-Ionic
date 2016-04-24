@@ -1,0 +1,124 @@
+<!-- <div class="modal-header">
+	<h3 class="modal-title">{{"termstore.title" | translate}}</h3>
+</div>
+
+<div class="modal-body">
+	<div>
+		<div>
+			<form role="form" novalidate name="termStoreDetail">
+				<div class="form-group"
+					ng-class="{ 'has-error': termStoreDetail.name.$dirty && termStoreDetail.name.$invalid }">
+					<input type="text" title="{{'termstore.name' | translate}}" class="form-control"
+						ng-model="model.name" id="name" name="name" placeholder="{{'name' | translate}}"
+						required>
+					<div class="error-container"
+						ng-messages="termStoreDetail.name.$dirty && termStoreDetail.name.$error">
+						<div ng-messages-include="assets/partials/admin/messages.html"></div>
+					</div>
+				</div>
+				<div class="form-group"
+					ng-class="{ 'has-error': termStoreDetail.description.$dirty && termStoreDetail.description.$invalid }">
+					<input placeholder="{{'description' | translate}}" title="{{'description' | translate}}"
+						type="description" class="form-control"
+						ng-model="model.description" id="description" name="description"
+						required>
+					<div class="error-container"
+						ng-messages="termStoreDetail.description.$dirty && termStoreDetail.description.$error">
+						<div ng-messages-include="assets/partials/admin/messages.html"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="customTerms">{{'termstore.custom.terms' | translate}}</label> <input
+						type="checkbox" ng-model="model.allowCustomTerms" id="customTerms"
+						name="customTerms">
+				</div>
+			</form>
+		</div>
+		<div ng-if="!model.allowCustomTerms">
+			<input type="text" title="{{'termstore.addterm' | translate}}" class="form-control"
+				ng-model="model.newTerm" id="name" name="name"
+				placeholder="{{'termstore.addterm' | translate}}"
+				ng-keyup="$event.keyCode == 13 && addElement(model.newTerm)">
+			<br>
+			<div class="panel panel-default">
+				<div class="panel-heading">{{'termstore.predefined.terms' | translate}}</div>
+				<div class="panel-body">
+					<ul>
+						<li ng-repeat="element in elements">{{element}} <a
+							class="action-link" style="float: right;" title="Remove"
+							ng-click="remove(element)"><span
+								class="header-icon glyphicon glyphicon-minus-sign"></span></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-warning" ng-click="cancel()">{{'cancel' | translate}}</button>
+	<button class="btn btn-danger" ng-really-message="{{'termstore.remove.confirmation' | translate}}"
+										ng-really-click="delete(model)">{{'remove' | translate}}</button>
+	<button type="button" class="btn btn-primary" ng-click="save(model)"
+		ng-disabled="termStoreDetail.$invalid || elementsCheck()">{{'save' | translate}}</button>
+</div> -->
+
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <i class="mdi mdi-account-multiple-plus"></i>&nbsp;&nbsp;<h2>{{"termstore.title" | translate}}</h2>
+    <span flex></span>
+    <a href="javascript:;" style="float:right" ng-click="cancel()"><i class="mdi mdi-close" ></i></a>
+  </div>
+</md-toolbar>
+<div class="panel-body">
+  	<div>
+  		<form role="form" novalidate name="termStoreDetail">
+            <md-input-container class="md-block mb-0">
+                <label>{{"name" | translate}}</label>
+                <input type="text" title="{{'termstore.name' | translate}}" ng-model="model.name" id="name" name="name" required>
+                <div ng-messages="termStoreDetail.name.$dirty && termStoreDetail.name.$error">
+                    <div ng-messages-include="assets/partials/admin/messages.html"></div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block no-margin">
+                <label>{{'description' | translate}}</label>
+                <input type="text" title="{{'description' | translate}}" ng-model="model.description" id="description" name="description" required>
+                <div ng-messages="termStoreDetail.description.$dirty && termStoreDetail.description.$error">
+                    <div ng-messages-include="assets/partials/admin/messages.html"></div>
+                </div>
+            </md-input-container>
+            <md-checkbox ng-model="model.allowCustomTerms" id="customTerms" name="customTerms" aria-label="{{'termstore.custom.terms' | translate}}">
+                {{'termstore.custom.terms' | translate}}
+            </md-checkbox>
+  		</form>
+  	</div>
+  	<div ng-if="!model.allowCustomTerms">
+        <md-input-container class="md-block no-margin">
+            <label>{{'termstore.addterm' | translate}}</label>
+            <input type="text" title="{{'termstore.addterm' | translate}}" ng-model="model.newTerm" id="name" name="name"
+                ng-keyup="$event.keyCode == 13 && addElement(model.newTerm)">
+        </md-input-container>
+  		<br>
+  		<div class="panel panel-default">
+  			<div class="panel-heading">{{'termstore.predefined.terms' | translate}}</div>
+  			<div class="panel-body">
+  				<ul>
+  					<li ng-repeat="element in elements">{{element}} <a
+  						class="action-link" style="float: right;" title="Remove"
+  						ng-click="remove(element)"><span
+  							class="header-icon glyphicon glyphicon-minus-sign"></span></a>
+  					</li>
+  				</ul>
+  			</div>
+  		</div>
+  	</div>
+</div>
+  <md-divider inset></md-divider>
+  <md-dialog-actions layout="row" layout-xs="column">
+    	<span flex></span>
+    	<md-button ng-click="cancel()">{{'cancel' | translate}}</md-button>
+    	<md-button ng-really-message="{{'termstore.remove.confirmation' | translate}}"
+    	ng-really-click="delete(model)">{{'remove' | translate}}</md-button>
+    	<md-button ng-click="save(model)" ng-disabled="termStoreDetail.$invalid || elementsCheck()">{{'save' | translate}}</md-button>
+  </md-dialog-actions>

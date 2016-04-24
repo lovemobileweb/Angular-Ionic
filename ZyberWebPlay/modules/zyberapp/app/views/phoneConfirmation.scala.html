@@ -1,0 +1,143 @@
+@* login Template File *@
+@import java.util.UUID
+@import util.UserRequest
+@(user:zyber.server.dao.User,nonce:UUID,allowChange:Boolean,alreadySent:Boolean)(implicit us: UserRequest[_], messages: Messages)
+
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(views.html.shared.helper.bootstrapInput.f) }
+
+
+@mainold("Confirm your identity", {
+		Html("<script src='/bowerassets/bower/angularjs/angular.js'></script>")
+
+}){
+	<!--suppress ALL -->
+	<div class="container">
+	<center ng-app="myApp" ng-controller="myCtrl">
+		<div ng-show="@allowChange">
+			<input type="tel" name="mobileNumber" id="mobile-number" value='@user.getPhoneNumber'>
+			<button name="update" id="update" ng-click="update()">Update</button>
+			<div ng-show="updatedNumber" class="alert alert-info">Your number has been updated</div>
+			<div ng-show="updateError" class="alert alert-danger">Your phone number could not be updated : {{updateError}}</div>
+		</div>
+		<div style="padding-top: 10px">
+			<div ng-show="sent" class="alert alert-info">
+				Your SMS has been sent
+			</div>
+			<button id="send" ng-click="sendSms()">
+				<span ng-show="!sent">Send SMS for confirmation</span>
+				<span ng-show="sent">Resend SMS</span>
+			</button>
+			<div id="sendInfo" ng-show="sent">
+				<span ng-bind="sentStatus"></span>
+			</div>
+		</div>
+		<div ng-show="sent">
+			Enter the code you have received below to complete your registration
+			<input id="code" type="text"><br>
+			<button id="complete" ng-click="verify()">
+				Complete
+			</button>
+			<div class="alert alert-info" ng-show="verifying">
+				Verifying your code
+			</div>
+			<div class="alert alert-success" ng-show="verified">
+				Code ok
+			</div>
+			<div class="alert alert-danger" ng-show="hasVerifyError">
+				Your number could not be verified.
+			</div>
+		</div>
+
+	</center>
+	</div>
+	<script type="text/javascript">
+			var app = angular.module('myApp', []);
+
+			function replaceAll(str, find, replace) {
+				return str.replace(new RegExp(find, 'g'), replace);
+			}
+
+			function trim(input) {
+				var a = replaceAll(input," ","");
+				return replaceAll(a,"-","")
+			}
+
+			var $mobile = $("#mobile-number");
+
+			app.controller('myCtrl', function($scope,$http) {
+				$scope.updatedNumber = false;
+				$scope.updateError = "";
+				$scope.sent = false;
+				$scope.sentStatus = "";
+
+				var getNumber = function() { return trim($mobile.intlTelInput("getNumber",intlTelInputUtils.numberFormat.NATIONAL)) };
+				var getCode = function() { return $mobile.intlTelInput("getSelectedCountryData").dialCode };
+
+				$scope.verify = function() {
+					var number = getNumber();
+					var code = getCode();
+
+					$scope.verifying = true;
+					$scope.verifyError = "";
+					$scope.hasVerifyError = false;
+					$http.post("/phoneNumberConfirm?token="+$("#code").val()).success(function(data){
+						console.log("Ok");
+						$scope.verified = true;
+						$scope.verifying = false;
+						$scope.verifyError = "";
+						window.location ="/home";
+					}).error(function(data, status, header, config) {
+						console.log("Error with code")
+//						$scope.verifyError = data;
+						$scope.hasVerifyError = true;
+						$scope.verifying = false;
+					});
+				};
+
+				$scope.sendSms = function() {
+					$scope.sent = false;
+
+					var number = getNumber();
+					var code = getCode();
+					$http.post("/api/resendSms"). success(function(data){
+						$scope.sent = true;
+					}).error(function(data, status, header, config) {
+						$scope.sentError = data;
+					});
+				};
+
+				$scope.update = function() {
+					console.log("Updating number");
+					var number = getNumber();
+					var code = getCode();
+
+					$http.get("/api/updateNumber?phoneNumber="+number+"&countryCode="+code+"&nonce=@nonce").
+					success(function(data){
+						$scope.updatedNumber = true;
+						$scope.updateError = "";
+					}).error(function(data, status, header, config) {
+						$scope.updatedNumber = false;
+						$scope.updateError = data;
+					});
+				};
+
+			});
+
+			$(document).ready(function() {
+				$mobile.intlTelInput({
+					@if(user.getCountryCode != "") {
+					initialCountry: window.reverseHack["@user.getCountryCode"],
+					}
+					utilsScript: "/assets/javascripts/util.js"
+				});
+				@if(user.getCountryCode == "") {
+				$.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+					var countryCode = (resp && resp.country) ? resp.country : "";
+					var code = $mobile.intlTelInput("setCountry",countryCode);
+				});
+				}
+
+			});
+	</script>
+}

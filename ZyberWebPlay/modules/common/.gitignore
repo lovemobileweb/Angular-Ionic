@@ -1,0 +1,9 @@
+target
+/.idea
+/.idea_modules
+/.classpath
+/.project
+/.settings
+/.cache-main
+/.cache-tests
+/bin/

@@ -1,0 +1,37 @@
+@* viewUsers Template File *@
+@import controllers.admin._
+@import controllers.admin.routes
+@import zyber.server.dao.admin.TenantAdmin
+
+@(users: Seq[TenantAdmin])(implicit rs: UserRequest[_], messages: Messages)
+
+@views.html.admin.main(messages("users")){
+	
+	<div class="container">
+		<h2>@messages("users")</h2>
+		<div align="right">
+			<a class="btn btn-default" href="@routes.LoginController.createUser()" 
+			role="button">@messages("create_user")</a>
+		</div>
+		<table class="table table-hover">
+			<tr>
+				<th>@messages("username")</th>
+				<th>@messages("created_date")</th>
+				<th>@messages("name")</th>
+				<th>@messages("email")</th>
+				<th>@messages("active")</th>
+				<th>---</th>
+			</tr>
+			@for(u <- users){
+				<tr>
+					<td>@u.getUsername</td>
+					<td>@u.getCreatedDate</td>
+					<td>@u.getName</td>
+					<td>@if(u.getActive){ @Messages("active") } else { @Messages("inactive") }</td>
+					<td><a href="@routes.LoginController.editUser(u.getUserId.toString())">@messages("edit")</a></td>
+				</tr>
+			}
+		</table>
+	</div>
+	
+}(Some(rs), messages)

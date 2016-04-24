@@ -1,0 +1,35 @@
+<!-- <div class="panel panel-default" style="margin-right: 400px">
+    <div class="panel-body">
+        <div>
+            <div>
+                <div></div>
+                <div>
+                    <div class="panel panel-default"
+                         ng-repeat="activity in activities" style="border: 1px solid;padding: 5px;margin-bottom: 5px">
+                            {{"user" | translate}}
+                                {{activity.user.name}} {{"at" | translate}} {{activity.prettyTimestamp}}
+                                <p class="list-group-item-text">{{"note" | translate}} : {{activity.note}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="admin-page-content">
+    <md-card class="login-activity-card ml-0 mr-0">
+        <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">{{"recent" | translate}} {{"login-activity" | translate}}</span>
+              </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+          <div class="activity-container" ng-repeat="activity in activities">
+                <h4 class="activity-header">
+                {{"user" | translate}} {{activity.user.name}} {{"at" | translate}} {{activity.prettyTimestamp}}
+                </h4>
+                <p class="activity-note"><small>{{"note" | translate}} : {{activity.note}}</small></p>
+                <md-divider></md-divider>
+            </div>
+        </md-card-content>
+    </md-card>
+</div>

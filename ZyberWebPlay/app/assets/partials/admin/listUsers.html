@@ -1,0 +1,58 @@
+<div class="admin-page-content">
+	
+	<md-card class="mr-0 ml-0 relative">
+		<div class="card-button">
+			<md-button class="primary mr-0 mt-0" ng-click="createAccount()" >{{"create.account"|translate}}</md-button>
+		</div>
+		<md-card-title>
+		    <md-card-title-text>
+		        <span class="md-headline">{{"users_list"|translate}}</span>
+		    </md-card-title-text>
+		</md-card-title>
+        <md-table-container >
+          <table md-table class="user-list-table responsive-table">
+            <thead md-head >
+              	<tr md-row>
+	                <th md-column>{{"name"|translate}}</th>
+	                <th md-column>{{"email"|translate}}</th>
+	                <th md-column md-numeric>Action</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+	            <tr md-row ng-repeat="user in users">
+	                <td data-th="{{'name'|translate}}" md-cell><a ui-sref="admin.users.details({userId: user.uuid})">{{user.name}}</a></td>
+	                <td data-th="{{'email'|translate}}" md-cell>{{user.email}}</td>
+	                <td data-th="Action" md-cell class="action-btn">
+		                <a class="md-button md-raised" href="javascript:;"ng-click="editAccount(user)"><i class="mdi mdi-pencil"></i>
+			                <md-tooltip md-direction="top">
+			                        {{"edit_user" | translate}}
+			                </md-tooltip>
+		                </a>
+	                </td> 
+	                <!-- <button type="button" ng-click="editAccount(user)">{{"edit"|translate}}</button></td> -->
+	            </tr>
+            </tbody>
+          </table>
+        </md-table-container>
+	</md-card>
+	<!-- <table class="table table-striped">
+		<tr>
+			<th>{{"name"|translate}}</th>
+			<th>{{"email"|translate}}</th>
+			<th>---</th>
+		</tr>
+		<tr ng-repeat="user in users">
+			<td>
+				<a ui-sref="admin.users.details({userId: user.uuid})">{{user.name}}</a>
+			</td>
+			<td>{{user.email}}</td>
+			<td>
+				<button type="button" class="btn btn-link" ng-click="editAccount(user)">{{"edit"|translate}}</button>
+			</td>
+		</tr>
+	</table> -->
+</div>
+
+<script type="text/ng-template" id="editUser.html">
+	<ng-include src="'assets/partials/admin/editUser.html'"></ng-include>
+</script>

@@ -1,0 +1,43 @@
+
+<!-- <div class="modal-header">
+	<h3 class="modal-title">{{"create.group" | translate}}</h3>
+</div>
+<div class="modal-body">
+	<form role="form" novalidate name="createGroup">
+		<div class="form-group"
+			ng-class="{ 'has-error': createGroup.name.$dirty && createGroup.name.$invalid }">
+			<label for="name">{{"group_name"|translate}}</label> <input
+				type="text" class="form-control" ng-model="groupName" id="groupName"
+				name="groupName" required>
+			<div class="error-container"></div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" ng-click="cancel()">{{"cancel"|translate}}</button>
+	<button type="button" class="btn btn-primary"
+		ng-click="save(groupName)" ng-disabled="createGroup.$invalid">{{"save"|translate}}</button>
+</div> -->
+
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <i class="mdi mdi-account-multiple-plus"></i>&nbsp;&nbsp;<h2>{{"create.group" | translate}}</h2>
+    <span flex></span>
+    <a href="javascript:;" style="float:right" ng-click="cancel()"><i class="mdi mdi-close" ></i></a>
+  </div>
+</md-toolbar>
+<div class="panel-body">
+	<form role="form" novalidate name="createGroup">
+		<md-input-container class="md-block mb-0">
+	        <label>{{"group_name"|translate}}</label>
+	        <input type="text" class="form-control" ng-model="groupName" id="groupName" name="groupName" required>
+	        <div class="error-container"></div>
+	    </md-input-container>
+	</form>
+</div>
+<md-divider inset></md-divider>
+<md-dialog-actions layout="row" >
+	<span flex></span>
+	<md-button ng-click="cancel()">{{"cancel"|translate}}</md-button>
+	<md-button ng-click="save(groupName)" ng-disabled="createGroup.$invalid">{{"save"|translate}}</md-button>
+</md-dialog-actions>

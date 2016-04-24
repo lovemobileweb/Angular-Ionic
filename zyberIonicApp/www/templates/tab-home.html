@@ -1,0 +1,67 @@
+<ion-view>
+<ion-nav-buttons side="primary">
+          <a ng-repeat="crumb in partials" href="#/{{currentView()}}/{{crumb.uuid}}" class="button button-light icon-right ion-chevron-right">{{crumb.name}}</a>
+        </ion-nav-buttons>
+  <ion-content>
+    <div class="bar bar-header">
+      <button class="button" ng-click="openCreateFolder()">{{'create.folder' | translate}}</button>
+      <button class="button" ng-click="openUploadFile()">{{'upload' | translate}}</button>
+    </div>
+    <div class="row header">
+      <div class="row">
+        <div class="col">
+          {{"name"|translate}}
+        </div>
+        <div class="col">
+          {{"size"|translate}}
+        </div>
+        <div class="col">
+          {{"modified"|translate}}
+        </div>
+      </div>
+    </div>
+      <div class="row" ng-repeat="file in files">
+        <div class="col">
+          <img width="20" ng-if="file.isDirectory"
+            src='img/icons/folder.png'> <a ng-if="file.isDirectory"
+            ng-attr-href="{{file.isDeleted ? undefined : '#/' + currentView() + '/' +file.uuid }}"> {{file.name}} </a>
+            <a ng-if="!file.isDirectory" ng-click="downloadFile(file)"
+            ng-attr-href="{{file.isDeleted ? undefined : '#' }}"> {{file.name}} </a>
+        </div>
+        <div class="col">{{file.isDirectory ? "---" : file.size}}</div>
+        <div class="col">{{file.isDirectory ? "---" : file.modifiedPretty}}</div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
+
+<script id="create_folder.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <h1 class="title">{{"create.folder" | translate}}</h1>
+    </ion-header-bar>
+    <ion-content>
+          <form role="form" novalidate="" name="createFolder">
+             <div class="list">
+               <label class="item item-input" ng-class="{ 'has-errors' : createFolder.folderName.$invalid, 'no-errors' : createFolder.folderName.$valid}">
+                <span class="input-label">{{"folder_name"|translate}}</span>
+                <input type="text" name="folderName" ng-model="folder.folderName" ng-pattern='/^[^\/:?*"|]+$/' required>
+              </label>
+               
+              <div class="error-container" ng-show="createFolder.folderName.$error" ng-messages="createFolder.folderName.$error">
+              </div>
+            </div>
+            </form>
+    </ion-content>
+    <ion-footer-bar>
+      <div>
+          <button class="button button-royal" ng-click="cancel()">
+            {{"cancel"|translate}}
+          </button>
+          <button class="button button-balanced" ng-click="doCreateFolder(folder.folderName)" ng-disabled="createFolder.$invalid">
+            {{"save"|translate}}
+          </button>
+      </div>
+    </ion-footer-bar>
+  </ion-modal-view>
+</script>

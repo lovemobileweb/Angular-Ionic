@@ -1,0 +1,179 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET      /                                                  controllers.zyberapp.Application.index
+
+GET      /login                                             controllers.zyberapp.LoginController.login
+GET      /logout                                            controllers.zyberapp.LoginController.logout
+POST     /login                                             controllers.zyberapp.LoginController.authenticate
+GET      /createAccount                                     controllers.zyberapp.LoginController.newAccount
+POST     /createAccount                                     controllers.zyberapp.LoginController.createAccount
+
+GET      /changePassword                                    controllers.zyberapp.LoginController.changePassword
+POST     /changePassword                                    controllers.zyberapp.LoginController.doChangePassword
+
+GET      /download/:uuid                                    controllers.zyberapp.Application.downloadFile(uuid:UUID)
+GET      /download/version/:uuid                            controllers.zyberapp.Application.downloadFileVersion(uuid:UUID, version:Long)
+GET      /restricted/download/:uuid                         controllers.zyberapp.Application.downloadRestricted(uuid:UUID)
+
+# AngularJS home
+GET      /home                                              controllers.zyberapp.HomeController.home(path:String="")
+GET      /home/                                             controllers.zyberapp.HomeController.home(path:String ="")
+GET      /home/*path                                        controllers.zyberapp.HomeController.home(path:String)
+GET      /shares                                            controllers.zyberapp.HomeController.shares(path:String="")
+#GET      /shares/                                           controllers.zyberapp.HomeController.shares(path:String="")
+GET      /shares/:path                                      controllers.zyberapp.HomeController.shares(path:String)
+GET      /versions/*path                                    controllers.zyberapp.HomeController.home(path:String)
+GET      /trash                                             controllers.zyberapp.HomeController.home(path:String="")
+GET      /trash/*path                                       controllers.zyberapp.HomeController.home(path:String)
+GET      /home/search/*path                                 controllers.zyberapp.HomeController.home(path:String)
+GET      /shares/search/*path                               controllers.zyberapp.HomeController.home(path:String)
+
+#2 factor
+GET      /phoneNumberConfirm                                controllers.zyberapp.LoginController.phoneConfirmation
+#GET      /fakePhoneConfirm                                  controllers.zyberapp.LoginController.fakePhoneConfirmation()
+POST     /phoneNumberConfirm                                controllers.zyberapp.LoginController.doPhoneConfirmation(token:String)
+POST     /api/resendSms                                     controllers.zyberapp.LoginController.resendConfirmation()
+GET      /api/updateNumber                                  controllers.zyberapp.LoginController.updateNumber(countryCode:String,phoneNumber:String,nonce:UUID)
+
+# Administration
+GET      /admin                                             controllers.zyberapp.AdminController.admin
+
+# Settings
+GET      /settings                                          controllers.zyberapp.SettingsController.settings
+
+# Admin file browsing
+GET      /api/admin/activity                                controllers.zyberapp.AdminController.getAdminActivityView(path:String, byTime:Option[Boolean], sinceTime: Option[Long])
+GET      /api/admin/loginActivity                           controllers.zyberapp.AdminController.getLoginAdminActivityView()
+
+#Admin password policy
+GET      /api/admin/policy                                  controllers.zyberapp.AdminController.getPasswordPolicy()
+POST     /api/admin/policy                                  controllers.zyberapp.AdminController.savePasswordPolicy()
+
+#returns application supported languages
+GET      /api/languages                                     controllers.zyberapp.SettingsController.supportedLanguages
+# returns messages based on user selected language (authenticated)
+GET      /api/usermessages                                  controllers.zyberapp.SettingsController.getUserMessages
+# returns messages based on request language
+GET      /api/messages                                      controllers.zyberapp.SettingsController.getMessages
+
+# API
+POST     /api/authenticate                                   controllers.zyberapp.LoginController.authenticateApi
+GET      /api/search                                        controllers.zyberapp.HomeController.search(name:String,spath:Option[String],view:Option[String],hiddenOnly:Option[Boolean],showHidden:Option[Boolean],limit:Option[Boolean])
+
+GET      /api/users                                         controllers.zyberapp.AdminController.users
+GET      /api/users/:uuid                                   controllers.zyberapp.AdminController.getUser(uuid: String)
+POST     /api/users                                         controllers.zyberapp.AdminController.createUser
+PUT      /api/users                                         controllers.zyberapp.AdminController.updateUser
+DELETE   /api/users/:uuid                                   controllers.zyberapp.AdminController.deleteUser(uuid: String)
+
+PUT      /api/account                                       controllers.zyberapp.SettingsController.updateAccount
+
+GET      /api/userroles                                     controllers.zyberapp.AdminController.getUserRoles
+
+
+GET      /api/currentUser                                   controllers.zyberapp.SettingsController.currentUser
+PUT      /api/changePassword                                controllers.zyberapp.SettingsController.changePassword
+
+GET      /api/trash/                                        controllers.zyberapp.TrashController.getFiles(path:String="", ord: Option[String], t: Option[String])
+GET      /api/trash                                         controllers.zyberapp.TrashController.getFiles(path:String="", ord: Option[String], t: Option[String])
+GET      /api/trash/*path                                   controllers.zyberapp.TrashController.getFiles(path:String, ord: Option[String], t: Option[String])
+
+POST     /api/trash/undelete/*path                          controllers.zyberapp.TrashController.undelete(path:String)
+
+GET      /api/files                                         controllers.zyberapp.HomeController.getFiles(path:String, showHidden:Boolean, ord: Option[String], t: Option[String], view: Option[String])
+GET      /api/file                                          controllers.zyberapp.HomeController.getPath(path:UUID)
+GET      /api/versions                                      controllers.zyberapp.HomeController.getVersions(path:UUID)
+POST     /api/restore                                       controllers.zyberapp.HomeController.restoreVersion(uuid:UUID,version:Long)
+POST     /api/sharing/file/*path                            controllers.zyberapp.HomeController.fileSharing(path:String)
+POST     /api/sharing/folder/*path                          controllers.zyberapp.HomeController.folderSharing(path:String)
+
+GET      /api/activity                                      controllers.zyberapp.HomeController.getActivity(path:String,showHidden:Boolean, view: Option[String])
+
+POST     /api/upload                                        controllers.zyberapp.HomeController.streamUpload()
+#POST     /api/upload/*path                                  controllers.zyberapp.HomeController.streamUpload(path: String, view: Option[String])
+
+# Complete upload
+PUT      /api/upload/                                       controllers.zyberapp.HomeController.completeUpload(path: String = "", view: Option[String])
+PUT      /api/upload/*path                                  controllers.zyberapp.HomeController.completeUpload(path: String, view: Option[String])
+# Permission check for upload:
+GET      /api/checkupload/                                  controllers.zyberapp.HomeController.checkUploadPermissions(path: String, view: Option[String])
+# Name check for uploads
+POST     /api/checkupload/                                  controllers.zyberapp.HomeController.checkUploadName(path: String, view: Option[String])
+
+
+# TestChunks
+GET      /api/upload                                        controllers.zyberapp.HomeController.testChunks(flowChunkNumber: Int, flowIdentifier: String)
+#GET      /api/upload/*path                                  controllers.zyberapp.HomeController.testChunks(path: String, view: Option[String], flowChunkNumber: Int, flowIdentifier: String)
+
+#doesn't work with flow.js 
+#GET      /api/upload/*path                                  controllers.zyberapp.HomeController.checkUploadPermissions(path: String, view: Option[String])
+
+
+GET      /api/download/:uuid                                controllers.zyberapp.HomeController.downloadFile(uuid:UUID)
+GET      /api/checkdownload/:uuid                           controllers.zyberapp.HomeController.canDownload(uuid:UUID)
+
+POST     /api/createFolder                                  controllers.zyberapp.HomeController.createFolder(view: Option[String])
+POST     /api/rename                                        controllers.zyberapp.HomeController.rename
+POST     /api/makeshare                                     controllers.zyberapp.HomeController.moveToShares
+POST     /api/unshare                                       controllers.zyberapp.HomeController.unshareFolder
+GET      /api/hometree                                      controllers.zyberapp.HomeController.getHomeDirectoryStructure
+GET      /api/sharestree                                    controllers.zyberapp.HomeController.getSharesStructureForUser
+GET      /api/folderstree                                   controllers.zyberapp.HomeController.getSharesAndHomeStructureForUser
+
+DELETE   /api/delete/:uuid                                  controllers.zyberapp.HomeController.delete(uuid: String)
+POST     /api/undelete/:uuid                                controllers.zyberapp.HomeController.undelete(uuid: String)
+POST     /api/files/delete                                  controllers.zyberapp.HomeController.deleteFiles
+
+#metadata
+GET      /api/metadata                                      controllers.zyberapp.AdminController.getPathMetadata(uuid: String)
+PUT      /api/metadata                                      controllers.zyberapp.AdminController.updatePathMetadata(uuid: String)
+DELETE   /api/metadata                                      controllers.zyberapp.AdminController.deletePathMetadata(uuid: String, key: String)
+GET      /api/termstore                                     controllers.zyberapp.AdminController.getTermStore
+GET      /api/termstore/:name/terms                         controllers.zyberapp.AdminController.getTerms(name: String)
+POST     /api/termstore                                     controllers.zyberapp.AdminController.addTermStore
+PUT      /api/termstore                                     controllers.zyberapp.AdminController.updateTermStore(uuid: String)
+DELETE   /api/termstore                                     controllers.zyberapp.AdminController.deleteTermStore(uuid: String)
+
+# groups
+GET      /api/groups                                        controllers.zyberapp.LoginController.getGroups
+GET      /api/groups/:id                                    controllers.zyberapp.LoginController.getGroup(id: String)
+# GET      /api/usergroups                                    controllers.zyberapp.LoginController.getUserGroups
+POST     /api/usersgroups                                   controllers.zyberapp.LoginController.createGroup
+PUT      /api/usersgroups/:id                               controllers.zyberapp.LoginController.updateGroup(id: String)
+DELETE   /api/usersgroups/:id                               controllers.zyberapp.LoginController.removeGroup(id: String)
+GET      /api/groups/:id/members                            controllers.zyberapp.LoginController.getGroupMembers(id: String)
+PUT      /api/groups/:id/members                            controllers.zyberapp.LoginController.addMembers(id: String)
+DELETE   /api/groups/:id/members/:idMember                  controllers.zyberapp.LoginController.removeMember(id: String, idMember: String)
+
+# Security
+GET      /api/security/permissions                          controllers.zyberapp.HomeController.getPermissionSets()
+GET      /api/security/permissions/:path                    controllers.zyberapp.HomeController.getPrincipalsPermissions(path: String)
+GET      /api/security/permissions/:path/principal/:princ   controllers.zyberapp.HomeController.getPermisionSetForPrincipal(path: String, princ: String)
+POST     /api/security/permissions/:path/principal          controllers.zyberapp.HomeController.addPrincipalToPath(path: String)
+PUT      /api/security/permissions/:path/principal/:princ   controllers.zyberapp.HomeController.updatePermissionSetsForPrincipal(path: String, princ: String)
+DELETE   /api/security/permissions/:path/principal/:princ   controllers.zyberapp.HomeController.removePricipalFromPath(path: String, princ: String, set_recursively: Option[Boolean])
+
+GET      /api/query/principals                              controllers.zyberapp.LoginController.findPrincipalByName(name: String)
+GET      /api/query/users                                   controllers.zyberapp.LoginController.findUsersByName(name: String)
+
+GET      /api/breadcrumb                                    controllers.zyberapp.HomeController.constructHierarchyFor(path:String, view: Option[String])
+
+GET      /doc/viewer                                        controllers.zyberapp.HomeController.viewer(path: String)
+
+# Move/Copy
+POST     /api/moveto                                        controllers.zyberapp.HomeController.movePathsTo
+POST     /api/copyto                                        controllers.zyberapp.HomeController.copyPathsTo
+
+# Public (and restricted)
+GET      /public/download/:uuid                             controllers.zyberapp.PublicController.downloadFile(uuid:UUID)
+GET      /restricted/p/download/:uuid                       controllers.zyberapp.PublicController.downloadPasswordRestrictedFile(uuid:UUID)
+
+GET      /stage/git/update23894732489742387                 controllers.zyberapp.PublicController.gitUpdate()
+
+# Map static resources from the /public folder to the /assets URL path
+GET      /bowerassets/*file                                 controllers.ExternalAssets.at(path="public", file: String)
+GET      /assets/*file                                      controllers.Assets.versioned(path="/public", file: Asset)
+#GET      /webjars/*file                                     controllers.WebJarAssets.at(file)

@@ -1,0 +1,78 @@
+<main>
+<div class="page-content remodal-bg animsition">
+	<md-subheader class="md-primary m-n">
+      	<ul class="breadcrumb">
+			<li ng-repeat="crumb in partials">
+				<a ng-href="/{{currentView()}}/{{crumb.uuid}}">{{crumb.name}}&nbsp&nbsp/&nbsp&nbsp</a>
+			</li>
+		</ul>
+    </md-subheader>
+	<div class="main-container">
+		<!-- <h5>Version history of <strong>{{name}}</strong></h5>
+		<div ng-show="versions.length == 1">
+			<p><strong>{{name}}</strong> {{"versions.msg"|translate}}</p>
+		</div>
+		<div ng-show="versions.length > 1">
+			<p>
+			{{"snapshot.msg1"|translate}} 
+			<strong>{{name}}</strong> 
+			{{"snapshot.msg2"|translate}}:
+		</div> -->
+		<form novalidate name="formData">
+		<md-card>
+			<md-toolbar class="md-table-toolbar alternate">
+	          	<div class="md-toolbar-tools" style="font-size: 15px;max-height: none;height: 100%;">
+		            <span ng-show="versions.length == 1">
+		            	<strong>{{name}}</strong> {{"versions.msg"|translate}}
+		            </span>
+		            <span ng-show="versions.length > 1">
+		            	{{"snapshot.msg1"|translate}} <strong style="font-size: 17px;">{{name}}</strong> {{"snapshot.msg2"|translate}}:
+		            </span>
+	          	</div>
+	        </md-toolbar>
+			<md-table-container>
+				<table md-table md-row-select="options.rowSelection" ng-model="selected" md-progress="promise" class="table table-hover version-table responsive-table">
+					<thead md-head>
+						<tr md-row md-auto-select>
+							<th md-column></th>
+							<th md-column>{{"version"|translate}}</th>
+							<th md-column>{{"action"|translate}}</th>
+							<th md-column>{{"size"|translate}}</th>
+							<th md-column>{{"modified"|translate}}</th>
+						</tr>
+					</thead>
+					<tbody md-body>
+						<tr md-row ng-repeat="version in versions">
+							<td md-cell data-th=""><span ng-if="$index > 0">
+								<label>
+									<md-radio-group ng-model="formData.restorem">
+								      	<md-radio-button name="restore" value="{{version.version}}"></md-radio-button>
+								    </md-radio-group>
+								</label>
+								</span>
+							</td>
+							<td md-cell data-th="{{'version'|translate}}" class="version-no">
+								<a ng-href="#" ng-click="showFile(version)">{{"version"|translate}} {{version.number}}</a>
+								<span ng-if="$index == 0">
+									( {{"current" | translate}} )
+								</span>
+							</td>
+							<td md-cell data-th="{{'action'|translate}}"><span class="glyphicon glyphicon-{{version.actionIcon}}" aria-hidden="true" style="padding-right: 5px"></span> {{version.action}} {{"by"|translate}} {{version.actionUser}}</td>
+							<td md-cell data-th="{{'size'|translate}}">{{version.size}}</td>
+							<td md-cell data-th="{{'modified'|translate}}">{{version.modifiedPretty}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</md-table-container>
+		</md-card>
+		<div class="btn-group" ng-if="versions.length > 1">
+			<input type="submit" class="md-button primary" value="Restore" ng-click="restore()">
+			<md-button type="button" class=" primary" style="margin-left: 10px" ng-click="cancel()">{{"cancel"|translate}}</md-button>
+		</div>
+		</form>
+	</div>
+</div>
+</main>
+<script type="text/ng-template" id="showFile.html">
+	<ng-include src="'assets/partials/showFile.html'"></ng-include>
+</script>

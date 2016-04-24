@@ -1,0 +1,19 @@
+@* accountFields Template File *@
+@(accountForm: Form[(String, String, String)])(implicit messages: Messages)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(views.html.shared.helper.bootstrapInput.f) }
+
+	<fieldset>
+		@helper.inputText(accountForm("name"), args = '_label -> messages("name"), 'class -> "form-control")
+		@helper.inputText(accountForm("email"), args = '_label -> messages("email"), 'class -> "form-control")
+		@helper.inputPassword(accountForm("password"), args = '_label -> messages("password"), 'class -> "form-control")
+		<div class="form-group" id="confirm-control">
+   			<label for="Confirm" >@messages("confirm")</label>
+   			<div >
+   				<input type="password" id="confirm" name="confirm" class="form-control">
+   				<span id="confirm-block" class="help-block"></span>
+   			</div>
+		</div>
+	</fieldset>

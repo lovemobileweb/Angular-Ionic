@@ -1,0 +1,165 @@
+<!-- <div class="modal-header">
+	<h3 class="modal-title">{{"edit.account" | translate}}</h3>
+</div>
+
+<div class="modal-body">
+	<form role="form" novalidate name="userDetail">
+		<div class="form-group"
+			ng-class="{ 'has-error': userDetail.name.$dirty && userDetail.name.$invalid }">
+			<label for="name">{{"name" | translate}}</label> <input type="text"
+				class="form-control" ng-model="model.name" id="name" name="name"
+				required>
+			<div class="error-container"
+				ng-messages="userDetail.name.$dirty && userDetail.name.$error">
+				<div ng-messages-include="assets/partials/admin/messages.html"></div>
+			</div>
+		</div>
+		<div class="form-group"
+			ng-class="{ 'has-error': userDetail.email.$dirty && userDetail.email.$invalid }">
+			<label for="email">{{"email" | translate}}</label> <input
+				type="email" class="form-control" ng-model="model.email" id="email"
+				name="email" required>
+			<div class="error-container"
+				ng-messages="userDetail.email.$dirty && userDetail.email.$error">
+				<div ng-messages-include="assets/partials/admin/messages.html"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="role">{{'user_role' | translate}}</label><select
+				name="role" id="role" class="form-control"
+				ng-options="option.name for option in roles track by option.uuid"
+				ng-model="model.selectedRole" required></select>
+			<div class="error-container"
+				ng-messages="userDetail.role.$dirty && userDetail.role.$error">
+				<div class="messages">
+					<div ng-message="required">{{'user_role.required' |
+						translate}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="language">{{'language' | translate}}</label><select
+				name="language" id="language" class="form-control"
+				ng-options="option.value for option in languages track by option.cod"
+				ng-model="model.selectedLanguage" required></select>
+			<div class="error-container"
+				ng-messages="userDetail.language.$dirty && userDetail.language.$error">
+				<div class="messages">
+					<div ng-message="required">{{'language.required' |
+						translate}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group" ng-if="isEdit">
+					<label for="customTerms">{{'reset_password' | translate}}</label> <input
+						type="checkbox" ng-model="model.isResetPassword"
+						ng-change="clearPasswords()" 
+						id="isResetPassword"
+						name="isResetPassword">
+				</div>
+		<div class="form-group"
+			ng-class="{ 'has-error': userDetail.password.$dirty && userDetail.password.$invalid }"
+			ng-if="!isEdit || model.isResetPassword">
+			<label for="password">{{"password" | translate}}</label> <input
+				type="password" class="form-control" id="password"
+				ng-model="model.password" name="password" required>
+			<div class="error-container"
+				ng-messages="userDetail.password.$dirty && userDetail.password.$error">
+				<div ng-messages-include="assets/partials/admin/messages.html"></div>
+			</div>
+		</div>
+		<div class="form-group"
+			ng-class="{ 'has-error': userDetail.confirm.$dirty && userDetail.confirm.$invalid }"
+			ng-if="!isEdit || model.isResetPassword">
+			<label for="confirm">{{"confirm" | translate}}</label> <input
+				type="password" class="form-control" id="confirm"
+				ng-model="model.confirm" name="confirm" required
+				compare-to=model.password>
+			<div class="error-container"
+				ng-messages="userDetail.confirm.$dirty && userDetail.confirm.$error">
+				<div ng-messages-include="assets/partials/admin/messages.html"></div>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" ng-click="cancel()">{{"cancel"
+		| translate}}</button>
+	<button type="button" class="btn btn-primary" ng-click="save(model)"
+		ng-disabled="userDetail.$invalid">{{"save"|translate}}</button>
+	<button type="button" class="btn btn-danger" ng-if="isEdit"
+		ng-really-message="Do you want to delete user {{model.name}}?"
+		ng-really-click="delete(model.uuid)">{{"delete" | translate}}</button>
+</div> -->
+
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <i ng-if="!isEdit" class="mdi mdi-account-plus"></i>&nbsp;&nbsp;<h2 ng-if="!isEdit">{{"account.create" | translate}}</h2>
+    <i ng-if="isEdit" class="mdi mdi-account-alert"></i>&nbsp;&nbsp;<h2 ng-if="isEdit">{{"edit.account" | translate}}</h2>
+    <span flex></span>
+    <a href="javascript:;" style="float:right" ng-click="cancel()"><i class="mdi mdi-close" ></i></a>
+  </div>
+</md-toolbar>
+<div class="panel-body">
+	<form role="form" novalidate name="userDetail">
+		<md-input-container class="md-block ">
+	        <label>{{"name" | translate}}</label>
+	        <input type="text" ng-model="model.name" id="name" name="name" required>
+	        <div ng-messages="userDetail.name.$dirty && userDetail.name.$error">
+	          	<div ng-messages-include="assets/partials/admin/messages.html"></div>
+	        </div>
+	    </md-input-container>
+	    <md-input-container class="md-block no-margin">
+	        <label>{{"email" | translate}}</label>
+	        <input type="email" ng-model="model.email" id="email" name="email" required>
+	        <div ng-messages="userDetail.email.$dirty && userDetail.email.$error">
+	          	<div ng-messages-include="assets/partials/admin/messages.html"></div>
+	        </div>
+	    </md-input-container>
+	    <div layout="row">
+	    	<md-input-container class="md-block no-margin" flex="50">
+	    	     <label>{{'user_role' | translate}}</label>
+	    	     <md-select name="role" id="role" ng-model="model.selectedRole" required>
+	    	        <md-option ng-repeat="option in roles" ng-value="option">{{option.name}}</md-option>
+	    	    </md-select>
+	    	    <div class="errors" ng-messages="userDetail.role.$dirty && userDetail.role.$error">
+	    	        <div ng-message="required">{{'user_role.required' |	translate}}</div>
+	    	    </div>
+		    </md-input-container>
+	    	<md-input-container class="md-block no-margin" flex="50">
+	    	     <label>{{'language' | translate}}</label>
+	    	     <md-select name="language" id="language" ng-model="model.selectedLanguage" required>
+	    	        <md-option ng-repeat="option in languages" ng-value="option">{{option.value}}</md-option>
+	    	    </md-select>
+	    	    <div class="errors" ng-messages="userDetail.language.$dirty && userDetail.language.$error">
+	    	        <div ng-message="required">{{'language.required' |
+	    				translate}}</div>
+	    	    </div>
+		    </md-input-container>
+	    </div>
+	    <md-checkbox aria-label="Checkbox 1" ng-if="isEdit" ng-model="model.isResetPassword" ng-change="clearPasswords()" id="isResetPassword" name="isResetPassword">
+           {{'reset_password' | translate}}
+        </md-checkbox>
+        <md-input-container class="md-block" ng-if="!isEdit || model.isResetPassword">
+            <label>{{"password" | translate}}</label>
+            <input type="password" id="password" ng-model="model.password" name="password" required>
+            <div ng-messages="userDetail.password.$dirty && userDetail.password.$error">
+              	<div ng-messages-include="assets/partials/admin/messages.html"></div>
+            </div>
+        </md-input-container>
+        <md-input-container class="md-block no-margin" ng-if="!isEdit || model.isResetPassword">
+            <label>{{"confirm" | translate}}</label>
+            <input type="password" id="confirm" ng-model="model.confirm" name="confirm" required compare-to=model.password>
+            <div ng-messages="userDetail.confirm.$dirty && userDetail.confirm.$error">
+              	<div ng-messages-include="assets/partials/admin/messages.html"></div>
+            </div>
+        </md-input-container>
+    </form>
+</div>
+<md-divider inset></md-divider>
+<md-dialog-actions layout="row" layout-xs="column">
+	<span flex></span>
+	<md-button ng-click="cancel()">{{"cancel"| translate}}</md-button>
+	<md-button ng-click="save(model)" ng-disabled="userDetail.$invalid">{{"save"|translate}}</md-button>
+	<md-button ng-if="isEdit" ng-really-message="Do you want to delete user {{model.name}}?" ng-really-click="delete(model.uuid)">{{"delete" | translate}}</md-button>
+</md-dialog-actions>

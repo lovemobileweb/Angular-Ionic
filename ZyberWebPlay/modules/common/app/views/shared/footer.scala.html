@@ -1,0 +1,7 @@
+@* footer Template File *@
+@()
+<nav class="navbar navbar-default navbar-fixed-bottom footer shadow">
+  <div class="container">
+      &copy; @{java.time.LocalDateTime.now().getYear();} Zyber - Ubiquitous secure file sharing on any device. (Version @Option(core.Info.info).getOrElse(" -- version missing") )
+  </div>
+</nav>

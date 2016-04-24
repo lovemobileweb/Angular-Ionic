@@ -1,0 +1,692 @@
+
+<main>
+<div layout="row" layout-sm="column" layout-align="space-around" class="page-content" ng-show="loading">
+    <md-progress-circular md-mode="indeterminate" md-diameter="70"></md-progress-circular>
+</div>
+
+<div class="home page-content remodal-bg animsition" ng-show="!loading"> 
+	<!-- <script type="text/ng-template" id="searchTemplate.html">
+		<a ng-href="/home/{{match.model.directoryPath}}#{{match.model.name}}" ng-class="{deleted : match.model.isDeleted}">
+			<img ng-src="{{match.model.image}}" width="16">
+			<span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+		</a>
+	</script> -->
+	
+	<div id="top-header">
+		<md-subheader class="md-primary m-n">
+			<ul class="breadcrumb">
+				<li ng-repeat="crumb in partials"><a
+					ng-href="/{{currentView()}}/{{crumb.uuid}}">{{crumb.name}}</a></li>
+					<!-- <span style="float:right">
+						<input type="text" ng-model="searchedFiles" typeahead="file as file.name for file in searchFiles($viewValue)" typeahead-template-url="searchTemplate.html">
+					</span> -->
+			</ul>
+			<!-- <span class="search-box right md-primary m-n" style="margin-right: 0;">
+				<md-input-container md-no-float>
+			    	<i class="mdi mdi-magnify"></i>
+			    	<form ng-submit="$event.preventDefault()">
+			    	<md-autocomplete
+							ng-keyup="$event.keyCode == 13 && gotoSearch($parent.searchText)"
+							md-selected-item="$parent.selectedItem"
+							md-search-text="$parent.searchText"
+							md-items="item in searchFiles(searchText)"
+							md-item-text="item.name" md-min-length="0"
+							placeholder="{{'search_file' | translate}}"
+							id="searchText"> 
+							<md-item-template>
+								<a ng-href="javascript:;" ng-class="{deleted : item.isDeleted}" ng-click="showFile(item, $event)">
+									<span class="search-content">
+										<span>{{item.directoryPath}}</span>
+										<span>/</span>
+										<span md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}}</span>
+									</span>
+								</a>
+							</md-item-template>
+							<md-not-found> 
+									{{"no_results_match"|translate}} "{{searchText}}"
+									{{"were_found"|translate}}
+							</md-not-found> </md-autocomplete>
+							</form>
+			    </md-input-container>
+		</span> -->
+		</md-subheader>
+		<div>
+		<section  class="btn-wrapper" layout="row" layout-align="end" layout-wrap style="padding: 15px 15px 0 15px;">
+			<span class="action-btn-group">
+				<md-button type="button"
+						class="btn-create-folder" ng-click="openCreateFolder()">
+					<span><i class="mdi mdi-folder"></i></span>&nbsp;&nbsp;{{"create.folder"
+					| translate}}</md-button> 
+				<md-button type="button" class="btn-upload"
+					ng-click="openUploadFile($event)"> <span><i
+					class="mdi mdi-upload"></i></span>
+			&nbsp;&nbsp;{{"upload" | translate}}</md-button>
+				<span ng-show="selected.length" class="selected-file-no">
+					<strong>{{selected.length}}</strong> {{selected.length > 1 ? 'items' :
+						'item'}} {{'selected'|translate}}
+				</span>
+				<span class="selected-file-no details-dots">
+				<a href=""><i class="mdi mdi-dots-vertical" style="color: rgba(0,0,0,0.5);font-size: 21px;"></i></a>
+				</span>
+			</span> 
+
+			<span ng-if="selectedFile || (selected.length > 0)"
+				class="select-btn-group"> 
+				
+				<a class="md-button md-raised"
+				href="#" ng-click="showMoveFiles(selected,$event)"
+				ng-if="selected.length > 0"
+				style="min-width: 40px; background-color: #004177;"
+				aria-label="Move"><i class="mdi mdi-folder-move"
+					style="color: #ffffff"></i> <md-tooltip md-direction="top">
+					{{"move_to" | translate}} </md-tooltip> 
+				</a>
+				
+				<a class="md-button md-raised"
+				href="#" ng-click="showCopyFiles(selected,$event)"
+				ng-if="selected.length > 0"
+				style="min-width: 40px; background-color: #004177;"
+				aria-label="Copy"><i class="mdi mdi-content-copy"
+					style="color: #ffffff"></i> <md-tooltip md-direction="top">
+					{{"copy_to" | translate}} </md-tooltip> 
+				</a> 
+				
+				<a class="md-button md-raised"
+				href="#" ng-click="openFileSharing(selectedFile,$event)"
+				ng-if="isHome() && !selectedFile.isDirectory && !selectedFile.isDeleted && (selected.length < 2)"
+				style="min-width: 40px; background-color: #004177;"
+				aria-label="Share"><i class="mdi mdi-account-multiple-plus"
+					style="color: #ffffff"></i> <md-tooltip md-direction="top">
+					{{"share" | translate}} </md-tooltip> 
+				</a> 
+
+				<a class="md-button md-raised" href="#"
+				ng-click="openFolderSharing(selectedFile,$event)"
+				ng-if="selectedFile.isDirectory && !selectedFile.linked && !selectedFile.isDeleted && (selected.length < 2)"
+				style="min-width: 40px; background-color: #004177;"
+				aria-label="Share"> <i class="mdi mdi-account-multiple-plus"
+					style="color: #ffffff"></i> 
+					<md-tooltip md-direction="top">{{"share" | translate}} </md-tooltip>
+				</a> 
+				<a class="md-button md-raised action-btn" href="#"
+				ng-click="initEdit()"
+				ng-if="!selectedFile.isDeleted && (selected.length < 2)"
+				style="min-width: 40px; background-color: #004177;"
+				aria-label="Rename"> <i class="mdi mdi-pen"
+					style="color: #ffffff"></i> <md-tooltip md-direction="top">
+					{{"rename" | translate}} </md-tooltip>
+			</a> <a class="md-accent md-raised md-hue-1 md-button" href="#"
+				ng-if="!selectedFile.isDeleted"
+				ng-really-message="{{getConfirmMsg()}}"
+				ng-really-click="deleteSelectedFiles()"
+				style="min-width: 40px; background-color: #004177;"
+				aria-label="Delete"> <i class="mdi mdi-archive"
+					style="color: #ffffff"></i> <md-tooltip md-direction="top">
+					{{"archive" | translate}} </md-tooltip>
+			</a> <a class="md-button md-raiseds"
+				ng-click="downloadFile(selectedFile)"
+				ng-if="!selectedFile.isDirectory && !selectedFile.isDeleted && (selected.length < 2)"
+				style="min-width: 40px; background-color: #004177;"
+				aria-label="Download"><i class="mdi mdi-download"
+					style="color: #ffffff"></i> <md-tooltip md-direction="top">
+					{{"download" | translate}} </md-tooltip> </a> <a
+				class="md-button md-raised action-btn" href="#"
+				ng-click="fileHistory(selectedFile)"
+				ng-if="!selectedFile.isDirectory && !selectedFile.isDeleted && (selected.length < 2)"
+				style="min-width: 40px; background-color: #004177;"
+				aria-label="Previous Versions"> <i
+					class="mdi mdi-clock" style="color: #ffffff"></i> <md-tooltip
+						md-direction="top"> {{"previous_versions" |
+					translate}} </md-tooltip>
+			</a> <!-- 			<a class="md-button md-raised" href="#" ng-click="openSecurity(selectedFile,$event)" ng-if="!isHome() && !selectedFile.isDeleted && (selected.length < 2)" style="min-width: 40px;background-color: #004177;" aria-label="Security"> -->
+				<!-- 				<i class="mdi mdi-security" style="color:#ffffff"></i>  -->
+				<!-- 				<md-tooltip md-direction="top"> --> <!-- 			        {{"security" | translate}} -->
+				<!-- 			      </md-tooltip> --> <!-- 				</a> --> <!-- 			</a>  -->
+				<a class="md-button md-raised" href="#"
+				ng-click="restoreFile(selectedFile)"
+				ng-if="selectedFile.isDeleted && (selected.length < 2)"
+				style="min-width: 40px; background-color: #004177;"
+				aria-label="Restore"><i class="mdi mdi-backup-restore"
+					style="color: #ffffff"></i> <md-tooltip md-direction="top">
+					{{"restore" | translate}} </md-tooltip> </a> <!--TODO possibly support renaming deleted files. Need to make sure we update the TrashedPath too-->
+				<!-- <a class="md-button md-raised " href="#" ng-click="clearSelected()" ng-if="!selectedFile.isDeleted" style="min-width: 40px;background-color: #004177;" aria-label="Close"> 
+				<i class="mdi mdi-close" style="color:#ffffff"></i>
+				<md-tooltip md-direction="top">
+		        	Close
+		      </md-tooltip>
+			</a> -->
+			</span>
+		</section>
+		</div>
+	</div>
+	<div class="main-container relative">
+		<div layout="row" layout-align="space-between stretch">
+			<md-card layout="column" flex class="table-card">
+				<md-checkbox
+					ng-model="$parent.showHidden" id="showHidden"
+					ng-change="reloadFiles()" aria-label="Show hidden files"
+					for="showHidden">{{"show_archived"
+				| translate}}</md-checkbox>
+				<md-table-container id="table-container">
+					<table md-table md-row-select="true" ng-model="selected"
+						md-progress="promise" class="responsive-files-table">
+						<thead md-head>
+							<tr md-row>
+								<th md-column md-order-by="name" ng-click='setSorting("name")'>
+									<span ng-switch="getSorting()"> <span
+										ng-switch-when="name"> {{"name" | translate}} <!-- <img width="5"	ng-attr-src="{{asc() ? 'assets/images/icons/asc.png' : 'assets/images/icons/desc.png'}}"> -->
+									</span> <span ng-switch-default>{{"name" | translate}}</span>
+								</span>
+								</th>
+								<th md-column md-order-by="size" ng-click='setSorting("size")' class="size-column" >
+									<span ng-switch="getSorting()"> <span
+										ng-switch-when="size"> {{"size" | translate}} <!-- <img width="5" ng-attr-src="{{asc() ? 'assets/images/icons/asc.png' : 'assets/images/icons/desc.png'}}"> -->
+									</span> <span ng-switch-default>{{"size"|translate}}</span>
+								</span>
+								</th>
+								<th md-column md-order-by="modified"
+									ng-click='setSorting("modified")' class="modified-date-column"><span
+									ng-switch="getSorting()"> <span ng-switch-when="modified">
+											{{"modified" | translate}} <!-- <img width="5" ng-attr-src="{{asc() ? 'assets/images/icons/asc.png' : 'assets/images/icons/desc.png'}}"> -->
+									</span> <span ng-switch-default>{{"modified" | translate}}</span>
+								</span></th>
+							</tr>
+						</thead>
+						<tbody md-body>
+							<tr md-select="file" class="files-table" md-row
+								ng-repeat="file in files" ng-click="onSelect(file)"
+								ng-class="{active : isFileSelected(file), deleted : file.isDeleted,rowActive : isFileSelected(file)}">
+								<td md-cell context-menu="onShow(file)"
+									context-menu-close="onClose()" data-target="menu-1">
+									<div layout="row" layout-align="center center">
+										<span ng-switch="file.mimeType" class="image-type">
+											<img ng-switch-when="application/pdf" src="assets/images/PDF.png" style="max-width: 25px;">
+											<img ng-switch-when="image/gif" src="assets/images/sample-file-icon.jpg" style="max-width: 25px;">
+											<img ng-switch-when="image/png" src="assets/images/sample-file-icon.jpg" style="max-width: 25px;">
+											<img ng-switch-when="text/plain" src="assets/images/TEXT.png" style="max-width: 25px;">
+											<img ng-switch-when="text/html" src="assets/images/HTML.png" style="max-width: 25px;">
+											<img ng-switch-when="application/zlib" src="assets/images/ZIP.png" style="max-width: 25px;">
+											<img ng-switch-when="application/zip" src="assets/images/ZIP.png" style="max-width: 25px;">
+											<img ng-switch-when="application/x-tika-ooxml" src="assets/images/PPT.png" style="max-width: 25px;">
+											<img ng-switch-when="video/mp4" src="assets/images/VIDEO.png" style="max-width: 25px;">
+											<img ng-switch-when="application/x-matroska" src="assets/images/VIDEO.png" style="max-width: 25px;">
+											<img ng-switch-default src="assets/images/FOLDER.png" style="max-width: 20px;">
+										</span>
+										 <!-- <i class="mdi mdi-folder-outline file-type-icon"
+											ng-if="editing && dfile === selectedFile || file.isDirectory">
+										</i>  -->
+										<!-- <i class="mdi mdi-file-outline file-type-icon"
+											ng-if="editing && dfile === selectedFile || !file.isDirectory">
+										</i> -->
+										<!-- <img style="width:16px; display:inline-block;" ng-if="editing && dfile === selectedFile || file.isDirectory"
+												src='assets/images/icons/folder.png'  />  -->
+
+										<div flex style="margin-left: 13px">
+											<a ng-attr-href="{{file.isDeleted ? undefined : (file.isDirectory ? currentView() + '/' +file.uuid : undefined)}}" class="action-link file-name-text"
+												ng-if="!(editing && file === selectedFile)"> {{file.name}}
+												<div class="date-size-style" ng-if="!file.isDirectory">
+													Modified on {{file.isDirectory	? "---" : file.modifiedPretty}}
+												</div>
+												<div class="date-size-style" ng-if="!file.isDirectory">
+													Size : {{file.isDirectory	? "---" : file.size | bytes}}
+												</div>
+											</a>
+
+											<md-input-container class="md-block mb-0" flex-gt-sm
+												ng-if="editing && file === selectedFile"
+												style="margin-bottom:0;"> <label>{{'rename'|translate}}</label>
+											<input type="text" ng-model="newName.value" focus-me="editing && file === selectedFile"
+												ng-keyup="$event.keyCode == 13 && changeName(file)"
+												ng-if="editing && file === selectedFile"> </md-input-container>
+										</div>
+									</div> <!-- <input type="text" ng-model="newName.value"
+										ng-keyup="$event.keyCode == 13 && changeName(file)"
+										ng-if="editing && file === selectedFile"> -->
+								</td>
+								<td md-cell context-menu="onShow(file)"
+									context-menu-close="onClose()" data-target="menu-1" class="size-column">{{file.isDirectory
+									? "---" : file.size | bytes}}</td>
+								<td md-cell context-menu="onShow(file)"
+									context-menu-close="onClose()" data-target="menu-1" class="modified-date-column">{{file.isDirectory
+									? "---" : file.modifiedPretty}}</td>
+								<td md-cell style="text-align: right;" class="details-dots"><a href=""><i class="mdi mdi-dots-vertical" style="color: rgba(0,0,0,0.5);font-size: 21px;"></i></a></td>
+							</tr>
+						</tbody>
+					</table>
+				</md-table-container>
+				<span class="action-btn-group-float">
+					<md-fab-speed-dial md-open="false" md-direction="up" class="md-fling">
+				        <md-fab-trigger>
+					          <md-button aria-label="menu" class="md-fab md-warn">
+					            <md-icon class="mdi mdi-plus"></md-icon>
+					          </md-button>
+				        </md-fab-trigger>
+				        <md-fab-actions>
+					          <md-button aria-label="{{'create.folder'| translate}}" class="md-fab md-raised md-mini" ng-click="openCreateFolder($event)">
+					          		<md-tooltip md-direction="top">{{"create.folder"| translate}}</md-tooltip>
+					            	<md-icon aria-label="{{'create.folder'| translate}}" class="mdi mdi-folder"></md-icon>
+					          </md-button>
+					          <md-button aria-label="{{'upload' | translate}}" class="md-fab md-raised md-mini" ng-click="openUploadFile($event)">
+					          		<md-tooltip md-direction="top">{{"upload" | translate}}</md-tooltip>
+					            	<md-icon aria-label="{{'upload' | translate}}" class="mdi mdi-upload"></md-icon>
+					          </md-button>
+				        </md-fab-actions>
+			      	</md-fab-speed-dial>
+		      	</span>
+			</md-card>
+			<md-card flex-gt-sm="33" flex="33" class="detail"
+				ng-show="selectedFile && (selected.length < 2)"> 
+				<md-toolbar
+				class="bg-primary">
+					<div class="md-toolbar-tools">
+						<small class="ellipsis">{{selectedFile.name}}</small> &nbsp;&nbsp; <a
+							ng-click="!selectedFile.isDirectory && showFile(selectedFile,$event)"
+							href style="float: right;"><i ng-if="!selectedFile.isDirectory"
+							class="mdi mdi-eye"></i></a>
+					</div>
+				</md-toolbar>
+				<div ng-cloak>
+					<md-content class="file-details"> 
+					<md-tabs md-border-bottom> 
+						<md-tab label="{{'details'|translate}}"> 
+							<md-content	class="md-padding recent-activity">
+								<p><span style="font-weight: 500;">{{'type'|translate}}:</span> 
+									<span ng-if="selectedFile.isDirectory">{{'directory'|translate}}</span>
+									<span ng-if="!selectedFile.isDirectory">{{selectedFile.mimeType}}</span>
+								</p>
+								<p ng-if="!selectedFile.isDirectory"><span style="font-weight: 500;">{{'size'|translate}}:</span> {{selectedFile.size | bytes}}</p>
+								<p><span style="font-weight: 500;">{{'location'|translate}}:</span> <span>{{getLocation()}}</span></p>
+								<p ng-if="!selectedFile.isDirectory"><span style="font-weight: 500;">{{'modified'|translate}}:</span> <span>{{selectedFile.modifiedPretty}}</span></p>
+							</md-content> 
+						</md-tab> 
+						<md-tab label="{{'activity'|translate}}"> 
+							<md-content>
+								<div ng-if="!selectedFile">
+									<center>
+										<h5 class="no-margin">{{"select.file" | translate}}</h5>
+									</center>
+								</div>
+								<div ng-if="selectedFile" class="activity-tab">
+									<div class="scrollable" style="height: 100%;">
+										<!-- <h3>{{"metadata" | translate}}</h3> -->
+										<div ng-if="availableTermStore.length" style="padding-left: 15px;">
+											<md-input-container style="min-width: 210px;"> 
+												<label>Select term store</label> 
+												<md-select name="termStore" id="termStore" ng-model="selectedStore.value" class="form-control"> 
+													<md-option value="">{{"select.msg"|translate}}</md-option>
+													<md-option ng-repeat="option in availableTermStore" value="{{option.name}}"> {{option.name}} </md-option>
+												</md-select> 
+											</md-input-container>
+											<button type="button" class="md-button md-raised add-btn"
+												ng-click="selectedStore.value && newMetadata(selectedFile, selectedStore.value)">
+												<i class="mdi mdi-plus"></i>
+											</button>
+											<!-- <select name="termStore" id="termStore"
+												ng-model="selectedStore.value" class="form-control">
+												<option value="">---{{"select.msg"|translate}}---</option>
+												<option ng-repeat="option in availableTermStore"
+													value="{{option.name}}">{{option.name}}</option>
+											</select>  -->
+											<!-- <a class="action-link" ng-click="selectedStore.value && newMetadata(selectedFile, selectedStore.value)">{{"add"|translate}}</a> -->
+
+										</div>
+										<div class="panel panel-default meta-data-detail"
+											ng-repeat="(key, value) in metadata">
+											<div class="panel-body">
+												<md-list ng-cloak>
+													<h5 class="no-margin" style="padding: 5px 15px; background-color: #eee; margin-bottom: 0 !important;">{{key}}</h5>
+												  <md-list-item ng-repeat="element in value" style="min-height: 30px;">
+												    <p> {{element}}</p>
+												    <md-divider></md-divider>
+												  </md-list-item>
+												</md-list>
+												<!-- <h5>{{key}}</h5>
+												<ul>
+													<li ng-repeat="element in value"><strong>{{element}}</strong>
+													</li>
+												</ul> -->
+												<div align="left">
+													<a class="action-link md-button add-btn"
+														ng-click="editMetadata(selectedFile, key, value)">
+														<i class="mdi mdi-pencil"></i>
+														<md-tooltip md-direction="top">
+															{{"edit"|translate}}
+														</md-tooltip>
+													</a>
+													<a class="action-link md-button add-btn"
+														ng-really-message="{{'remove_metadata_msg' | translate:'{key: key}'}}"
+														ng-really-click="deleteMetadata(selectedFile, key)">
+														<i class="mdi mdi-archive"></i>
+														<md-tooltip md-direction="top">
+															{{"remove"|translate}}
+														</md-tooltip>
+													</a>
+												</div>
+											</div>
+										</div>
+										<h5 class="no-margin"
+											style="padding: 5px 15px; background-color: #eee; margin-bottom: 0 !important;">{{"recent_activity"|translate}}</h5>
+										<md-content flex> <md-list> <md-list-item
+											class="md-4-line recent-activity"
+											ng-repeat="activity in selectedFileActivity">
+										<div class="md-list-item-text">
+											<h4>
+												{{activity.action}} {{"by"|translate}} {{activity.user.name}} <br />
+												<small>{{activity.activityTimestamp}}</small>
+											</h4>
+											<p>{{activity.note}}</p>
+										</div>
+										<md-divider inset></md-divider> </md-list-item> </md-list> </md-content>
+									</div>
+								</div>
+							</md-content> 
+						</md-tab> 
+					</md-tabs> </md-content>
+				</div>
+			</md-card>
+			<md-sidenav class="md-sidenav-right md-whiteframe-z2 file-details" md-component-id="right">
+			  <md-toolbar
+			  class="bg-primary">
+			  	<div class="md-toolbar-tools">
+			  		<small class="ellipsis" style="max-width: 210px;">{{selectedFile.name}}</small> &nbsp;&nbsp; <a
+			  			ng-click="!selectedFile.isDirectory && showFile(selectedFile,$event)"
+			  			href style="float: right;"><i ng-if="!selectedFile.isDirectory"
+			  			class="mdi mdi-eye"></i></a>
+			  			<a href="javascript:;"	ng-click="close()" class="sidenav-close-btn"><i class="mdi mdi-close"></i></a>
+			  	</div>
+			  </md-toolbar>
+			    <md-tabs md-border-bottom> 
+				    <md-tab label="Actions" > 
+				    	<md-content class="actions-tab">
+				    		<div class="dropdown context" >
+				    			<ul class="dropdown-menu" >
+
+				    				<li ng-if="!selectedFile.isDirectory && (selected.length < 2)">
+				    					<a href="#" ng-click="showFile(selectedFile,$event)"> <i
+				    						class="mdi mdi-eye"></i> {{"view" | translate}}
+				    				</a>
+				    				</li>
+				    				<li
+				    					ng-if="isHome() && !selectedFile.isDirectory && !selectedFile.isDeleted && (selected.length < 2)">
+
+				    					<a href="#" ng-click="openFileSharing(selectedFile,$event)"
+				    					style="min-width: 40px;" aria-label="Share"> <i
+				    						class="mdi mdi-account-multiple-plus"></i> {{"share" | translate}}
+				    				</a>
+				    				</li>
+				    				<li
+				    					ng-if="isHome() && selectedFile.isDirectory && !selectedFile.linked && !selectedFile.isDeleted && (selected.length < 2)">
+
+				    					<a href="#" ng-click="openFolderSharing(selectedFile,$event)"
+				    					style="min-width: 40px;" aria-label="Share"><i
+				    						class="mdi mdi-account-multiple-plus"></i> {{"share" | translate}}
+				    				</a>
+				    				</li>
+				    				<li ng-if="!selectedFile.isDeleted && (selected.length < 2)"><a
+				    					class="action-btn" href="#" ng-click="initEdit()"
+				    					style="min-width: 40px;" aria-label="Rename"><i
+				    						class="mdi mdi-pen"></i> {{"rename" | translate}} </a></li>
+
+				    				<li ng-if="!selectedFile.isDeleted">
+				    					<a href="#"	ng-really-message="{{getConfirmMsg()}}"
+				    					ng-really-click="deleteSelectedFiles(selectedFile)" style="min-width: 40px;"
+				    					aria-label="Delete"><i class="mdi mdi-archive"></i> {{"archive"
+				    						| translate}} </a></li>
+				    				<li
+				    					ng-if="!selectedFile.isDirectory && !selectedFile.isDeleted && (selected.length < 2)">
+
+
+				    					<a href="#" ng-click="downloadFile(selectedFile)" style="min-width: 40px;"
+				    					aria-label="Download"><i class="mdi mdi-download"></i>
+				    						{{"download" | translate}} </a>
+				    				</li>
+				    				<li
+				    					ng-if="!selectedFile.isDirectory && !selectedFile.isDeleted && (selected.length < 2)">
+
+				    					<a class="action-btn" href="#" ng-click="fileHistory(selectedFile)"
+				    					style="min-width: 40px;" aria-label="Previous Versions"><i
+				    						class="mdi mdi-clock"></i> {{"previous_versions" |
+				    						translate}} </a>
+
+				    				</li>
+				    				<li
+				    					ng-if="!isHome() && !selectedFile.isDeleted && (selected.length < 2)">
+
+				    					<a href="#" ng-click="openSecurity(selectedFile,$event)"
+				    					style="min-width: 40px;" aria-label="Security"><i
+				    						class="mdi mdi-security"></i> {{"security" | translate}} </a>
+				    				</li>
+				    				<li ng-if="selectedFile.isDeleted && (selected.length < 2)"><a
+				    					href="#" ng-click="restoreFile(selectedFile)"
+				    					style="min-width: 40px;" aria-label="Restore"><i
+				    						class="mdi mdi-backup-restore"></i> {{"restore" | translate}} </a></li>
+				    				<!--TODO possibly support renaming deleted files. Need to make sure we update the TrashedPath too-->
+				    				<!-- <a href="#" ng-click="clearSelected()" ng-if="!selectedFile.isDeleted" style="min-width: 40px;background-color: #004177;" aria-label="Close"> 
+				    		    		<i class="mdi mdi-close" style="color:#ffffff"></i>
+				    		    		<md-tooltip md-direction="top">
+				    		            	Close
+				    		          </md-tooltip>
+				    		    	</a> -->
+				    			</ul>
+				    		</div>
+				    	</md-content> 
+				    </md-tab>
+			    	<md-tab label="{{'details'|translate}}"> 
+			    		<md-content	class="md-padding recent-activity">
+			    			<p><span style="font-weight: 500;">{{'type'|translate}}:</span> 
+			    				<span ng-if="selectedFile.isDirectory">{{'directory'|translate}}</span>
+			    				<span ng-if="!selectedFile.isDirectory">{{selectedFile.mimeType}}</span>
+			    			</p>
+			    			<p ng-if="!selectedFile.isDirectory"><span style="font-weight: 500;">{{'size'|translate}}:</span> {{selectedFile.size | bytes}}</p>
+			    			<p><span style="font-weight: 500;">{{'location'|translate}}:</span> <span>{{getLocation()}}</span></p>
+			    			<p ng-if="!selectedFile.isDirectory"><span style="font-weight: 500;">{{'modified'|translate}}:</span> <span>{{selectedFile.modifiedPretty}}</span></p>
+			    		</md-content> 
+			    	</md-tab> 
+			    	<md-tab label="{{'activity'|translate}}"> 
+			    		<md-content>
+			    			<div ng-if="!selectedFile">
+			    				<center>
+			    					<h5 class="no-margin">{{"select.file" | translate}}</h5>
+			    				</center>
+			    			</div>
+			    			<div ng-if="selectedFile" class="activity-tab">
+			    				<div class="scrollable" style="height: 100%;">
+			    					<!-- <h3>{{"metadata" | translate}}</h3> -->
+			    					<div ng-if="availableTermStore.length" style="padding-left: 15px;">
+			    						<md-input-container style="min-width: 210px;"> 
+			    							<label>Select term store</label> 
+			    							<md-select name="termStore" id="termStore" ng-model="selectedStore.value" class="form-control"> 
+			    								<md-option value="">{{"select.msg"|translate}}</md-option>
+			    								<md-option ng-repeat="option in availableTermStore" value="{{option.name}}"> {{option.name}} </md-option>
+			    							</md-select> 
+			    						</md-input-container>
+			    						<button type="button" class="md-button md-raised add-btn"
+			    							ng-click="selectedStore.value && newMetadata(selectedFile, selectedStore.value)">
+			    							<i class="mdi mdi-plus"></i>
+			    						</button>
+			    						<!-- <select name="termStore" id="termStore"
+			    							ng-model="selectedStore.value" class="form-control">
+			    							<option value="">---{{"select.msg"|translate}}---</option>
+			    							<option ng-repeat="option in availableTermStore"
+			    								value="{{option.name}}">{{option.name}}</option>
+			    						</select>  -->
+			    						<!-- <a class="action-link" ng-click="selectedStore.value && newMetadata(selectedFile, selectedStore.value)">{{"add"|translate}}</a> -->
+
+			    					</div>
+			    					<div class="panel panel-default meta-data-detail"
+			    						ng-repeat="(key, value) in metadata">
+			    						<div class="panel-body">
+			    							<md-list ng-cloak>
+			    								<h5 class="no-margin" style="padding: 5px 15px; background-color: #eee; margin-bottom: 0 !important;">{{key}}</h5>
+			    							  <md-list-item ng-repeat="element in value" style="min-height: 30px;">
+			    							    <p> {{element}}</p>
+			    							    <md-divider></md-divider>
+			    							  </md-list-item>
+			    							</md-list>
+			    							<!-- <h5>{{key}}</h5>
+			    							<ul>
+			    								<li ng-repeat="element in value"><strong>{{element}}</strong>
+			    								</li>
+			    							</ul> -->
+			    							<div align="left">
+			    								<a class="action-link md-button add-btn"
+			    									ng-click="editMetadata(selectedFile, key, value)">
+			    									<i class="mdi mdi-pencil"></i>
+			    									<md-tooltip md-direction="top">
+			    										{{"edit"|translate}}
+			    									</md-tooltip>
+			    								</a>
+			    								<a class="action-link md-button add-btn"
+			    									ng-really-message="{{'remove_metadata_msg' | translate:'{key: key}'}}"
+			    									ng-really-click="deleteMetadata(selectedFile, key)">
+			    									<i class="mdi mdi-archive"></i>
+			    									<md-tooltip md-direction="top">
+			    										{{"remove"|translate}}
+			    									</md-tooltip>
+			    								</a>
+			    							</div>
+			    						</div>
+			    					</div>
+			    					<h5 class="no-margin"
+			    						style="padding: 5px 15px; background-color: #eee; margin-bottom: 0 !important;">{{"recent_activity"|translate}}</h5>
+			    					<md-content flex> <md-list> <md-list-item
+			    						class="md-4-line recent-activity"
+			    						ng-repeat="activity in selectedFileActivity">
+			    					<div class="md-list-item-text">
+			    						<h4>
+			    							{{activity.action}} {{"by"|translate}} {{activity.user.name}} <br />
+			    							<small>{{activity.activityTimestamp}}</small>
+			    						</h4>
+			    						<p>{{activity.note}}</p>
+			    					</div>
+			    					<md-divider inset></md-divider> </md-list-item> </md-list> </md-content>
+			    				</div>
+			    			</div>
+			    		</md-content> 
+			    	</md-tab> 
+			    </md-tabs>
+			</md-sidenav>
+			
+			
+			<ng-include src="'assets/partials/uploadPanel.html'"></ng-include>
+		</div>
+	</div>
+	<div style="text-align: right;" ng-show="selectedFile && (selected.length < 2)" class="show-details-btn">
+	  	<md-button ng-click="toggleRight()"
+	    	ng-hide="isOpenRight()"
+	    	class="md-primary">
+	    	Show details
+	  	</md-button>
+	</div>
+	<script type="text/ng-template" id="createFolder.html">
+		<ng-include src="'assets/partials/createFolder.html'"></ng-include>
+	</script>
+
+	<script type="text/ng-template" id="uploadFile.html">
+		<ng-include src="'assets/partials/uploadFile.html'"></ng-include>
+	</script>
+
+	<script type="text/ng-template" id="showFile.html">
+		<ng-include src="'assets/partials/showFile.html'"></ng-include>
+	</script>
+
+	<script type="text/ng-template" id="metadata.html">
+		<ng-include src="'assets/partials/metadata.html'"></ng-include>
+	</script>
+
+	<script type="text/ng-template" id="editPathSecurity.html">
+		<ng-include src="'assets/partials/editPathSecurityModal.html'"></ng-include>
+	</script>
+	
+	<script type="text/ng-template" id="selectFolder.html">
+		<ng-include src="'assets/partials/selectFolder.html'"></ng-include>
+	</script>
+	
+
+	<div class="dropdown position-fixed context" id="menu-1"
+		ng-show="showContext">
+		<ul class="dropdown-menu" role="menu">
+
+			<li ng-if="!selectedFile.isDirectory && (selected.length < 2)">
+				<a href="#" ng-click="showFile(selectedFile,$event)"> <i
+					class="mdi mdi-eye"></i> {{"view" | translate}}
+			</a>
+			</li>
+			
+			
+			<li ng-if="selected.length > 0">
+				<a href="#" ng-click="showCopyFiles(selected,$event)"
+				style="min-width: 40px;" aria-label="Copy"> <i
+					class="mdi mdi-content-copy"></i> {{"copy_to" | translate}}
+				</a>
+			</li>
+			<li ng-if="selected.length > 0">
+				<a href="#" ng-click="showMoveFiles(selected,$event)"
+				style="min-width: 40px;" aria-label="Move"> <i
+					class="mdi mdi-folder-move"></i> {{"move_to" | translate}}
+				</a>
+			</li>
+			<li
+				ng-if="isHome() && !selectedFile.isDirectory && !selectedFile.isDeleted && (selected.length < 2)">
+
+				<a href="#" ng-click="openFileSharing(selectedFile,$event)"
+				style="min-width: 40px;" aria-label="Share"> <i
+					class="mdi mdi-account-multiple-plus"></i> {{"share" | translate}}
+			</a>
+			</li>
+			<li
+				ng-if="isHome() && selectedFile.isDirectory && !selectedFile.linked && !selectedFile.isDeleted && (selected.length < 2)">
+
+				<a href="#" ng-click="openFolderSharing(selectedFile,$event)"
+				style="min-width: 40px;" aria-label="Share"><i
+					class="mdi mdi-account-multiple-plus"></i> {{"share" | translate}}
+			</a>
+			</li>
+			<li ng-if="!selectedFile.isDeleted && (selected.length < 2)"><a
+				class="action-btn" href="#" ng-click="initEdit()"
+				style="min-width: 40px;" aria-label="Rename"><i
+					class="mdi mdi-pen"></i> {{"rename" | translate}} </a></li>
+			<li ng-if="!selectedFile.isDeleted"><a href="#"
+				ng-really-message="{{getConfirmMsg()}}"
+				ng-really-click="deleteSelectedFiles(selectedFile)" style="min-width: 40px;"
+				aria-label="Delete"><i class="mdi mdi-archive"></i> {{"archive"
+					| translate}} </a></li>
+			<li
+				ng-if="!selectedFile.isDirectory && !selectedFile.isDeleted && (selected.length < 2)">
+
+
+				<a ng-click="downloadFile(selectedFile)" style="min-width: 40px;"
+				aria-label="Download"><i class="mdi mdi-download"></i>
+					{{"download" | translate}} </a>
+			</li>
+			<li
+				ng-if="!selectedFile.isDirectory && !selectedFile.isDeleted && (selected.length < 2)">
+
+				<a class="action-btn" href="#" ng-click="fileHistory(selectedFile)"
+				style="min-width: 40px;" aria-label="Previous Versions"><i
+					class="mdi mdi-clock"></i> {{"previous_versions" |
+					translate}} </a>
+
+			</li>
+			<!-- <li
+				ng-if="!isHome() && !selectedFile.isDeleted && (selected.length < 2)">
+
+				<a href="#" ng-click="openSecurity(selectedFile,$event)"
+				style="min-width: 40px;" aria-label="Security"><i
+					class="mdi mdi-security"></i> {{"security" | translate}} </a>
+			</li> -->
+			<li ng-if="selectedFile.isDeleted && (selected.length < 2)"><a
+				href="#" ng-click="restoreFile(selectedFile)"
+				style="min-width: 40px;" aria-label="Restore"><i
+					class="mdi mdi-backup-restore"></i> {{"restore" | translate}} </a></li>
+			<!--TODO possibly support renaming deleted files. Need to make sure we update the TrashedPath too-->
+			<!-- <a href="#" ng-click="clearSelected()" ng-if="!selectedFile.isDeleted" style="min-width: 40px;background-color: #004177;" aria-label="Close"> 
+	    		<i class="mdi mdi-close" style="color:#ffffff"></i>
+	    		<md-tooltip md-direction="top">
+	            	Close
+	          </md-tooltip>
+	    	</a> -->
+		</ul>
+	</div>
+</div>
+</main>

@@ -1,0 +1,102 @@
+.breadcrumb{
+  padding: 1px 15px;
+  margin-bottom: 10px;
+  list-style: none;
+  background-color: #ffffff;
+  border-radius: 4px;
+}
+.breadcrumb>ul {
+    padding: 0;
+}
+.breadcrumb>ul>li {
+    display: inline-block;
+}
+.breadcrumb>ul>li>a{
+    color: #004177;
+}
+.md-button i{
+  font-size: 22px;
+  vertical-align: middle;
+}
+.action-btn{
+  background-color: #004177!important;
+  color: white !important;
+}
+.panel-body{
+  padding:15px;
+}
+.detail h4{
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.detail md-content{
+  background-color: none;
+}
+.detail md-tabs{
+  height: 340px;
+}
+.detail .recent-activity p{
+  font-size: 14px;
+}
+.detail p{
+  margin: 5px;
+}
+.username-btn{
+  text-transform: none !important;
+  background: none!important;
+}
+.sidebar-footer {
+    position: absolute;
+    height: 40px;
+    bottom: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    transition: all .6s ease 0s;
+    text-align: center;
+}
+.sidebar-footer {
+    position: absolute;
+    height: 40px;
+    bottom: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    transition: all .6s ease 0s;
+    text-align: center;
+    background: #003268;
+}
+.sidebar-footer div:hover {
+    background-color: #002544;
+}
+.sidebar-footer div a {
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 43px;
+    display: block;
+}
+.sidebar-footer div a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+.files-table td a{
+  color: #004177;
+}
+.extended .mybtn{
+  display: none !important;
+}
+.display{
+  display: none;
+}
+.extended .display{
+  display: block;
+}
+.mb-0{
+  margin-bottom: 0;
+}
+.footer{
+    padding: 10px;
+    height: 50px;
+    font-size: 12px;
+}

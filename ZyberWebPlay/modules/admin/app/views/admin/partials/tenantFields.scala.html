@@ -1,0 +1,18 @@
+@* tenantForm Template File *@
+@import controllers.admin._
+@import controllers.admin.routes
+@import zyber.server.dao.admin.Tenant
+
+@(tf: Form[Tenant])(implicit  messages: Messages)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(views.html.shared.helper.bootstrapInput.f) }
+
+<fieldset>
+		@helper.inputText(tf("name"), args = '_label -> messages("name"), 'class -> "form-control")
+		@helper.inputText(tf("contact_name"), args = '_label -> messages("contact_name"), 'class -> "form-control")
+		@helper.inputText(tf("contact_phone"), args = '_label -> messages("contact_phone"), 'class -> "form-control")
+		@helper.inputText(tf("contact_email"), args = '_label -> messages("contact_email"), 'class -> "form-control")
+		@helper.inputText(tf("subdomain"), args = '_label -> messages("subdomain"), 'class -> "form-control")
+</fieldset>

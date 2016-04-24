@@ -1,0 +1,30 @@
+@import util.UserRequest
+@(title: String, scripts: Html = Html(""))(content: Html)(implicit rs: Option[UserRequest[_]] = None, messages: Messages)
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.ico")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@Linker.bower("mdi/materialdesignicons.css")">
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("example.css")">
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/intTelInput.css">
+
+        <script src="@Linker.bower("jquery/jquery.js")" type="text/javascript"></script>
+        <script src="@Linker.bower("underscore/underscore.js")" type="text/javascript"></script>
+        <script src="/assets/javascripts/intTelInput.min.js" type="text/javascript"></script>
+        @scripts
+    </head>
+    <body class="extended">
+        <div class=" mdl-layout mdl-js-layout" ng-controller="homectrl">
+
+            @content
+
+            <!-- <div class="full-footer">
+                @views.html.shared.footer()
+            </div> -->
+        </div>
+    </body>
+</html>

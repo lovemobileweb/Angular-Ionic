@@ -1,0 +1,30 @@
+@* accountHelper Template File *@
+@()(implicit messages: Messages)
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		var passDontMatch = function(){
+			var pass = $("#password").val();
+			var confirm = $("#confirm").val();
+			return pass != confirm;
+		};
+		
+		var check = function(){
+			if(passDontMatch()){
+				$("#confirm-control").addClass("has-error");
+				$("#confirm-block").text('@Messages("account.create.dontmatch")');
+				$('#create-btn').attr('disabled','disabled');
+			}else{
+				$("#confirm-control").removeClass("has-error");
+				$("#confirm-block").text("");
+				$('#create-btn').removeAttr('disabled');
+			}
+		};
+		
+		$("#create-btn").submit(!passDontMatch);
+		
+		$("#password").keyup(check);
+		$("#confirm").keyup(check);
+	});
+</script>
